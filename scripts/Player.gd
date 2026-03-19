@@ -36,7 +36,7 @@ func _ready() -> void:
 	add_to_group("player")
 	motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
 	up_direction = Vector3.UP
-	_mesh.position = Vector3(0.0, 0.60, 0.0)
+	_mesh.position = Vector3(0.0, -0.18, 0.0)
 	_iarea.collision_mask = 5
 	var interact_shape: CollisionShape3D = _iarea.get_node_or_null("InteractShape")
 	if interact_shape and interact_shape.shape is SphereShape3D:
@@ -124,21 +124,21 @@ func _update_visuals(delta: float, input_strength: float) -> void:
 	_mesh.scale.y = lerpf(_mesh.scale.y, 1.0 + 0.04 * speed_ratio, 8.0 * delta)
 	_mesh.scale.x = lerpf(_mesh.scale.x, 1.0 - 0.03 * speed_ratio, 8.0 * delta)
 	_mesh.scale.z = lerpf(_mesh.scale.z, 1.0 - 0.03 * speed_ratio, 8.0 * delta)
-	_mesh.position.y = lerpf(_mesh.position.y, 0.60 + 0.04 * absf(sway) + 0.02 * input_strength, 8.0 * delta)
+	_mesh.position.y = lerpf(_mesh.position.y, -0.18 + 0.03 * absf(sway) + 0.01 * input_strength, 8.0 * delta)
 
 	var stride: float = sin(_step_t * 2.0) * 0.80 * speed_ratio
 	if _leg_l:
 		_leg_l.rotation.x = lerpf(_leg_l.rotation.x, stride * 0.85, 10.0 * delta)
 		_leg_l.position.z = lerpf(_leg_l.position.z, 0.05 + 0.08 * stride, 10.0 * delta)
-		_leg_l.position.y = lerpf(_leg_l.position.y, -0.31 - 0.02 * absf(stride), 10.0 * delta)
+		_leg_l.position.y = lerpf(_leg_l.position.y, -0.34 - 0.02 * absf(stride), 10.0 * delta)
 	if _leg_r:
 		_leg_r.rotation.x = lerpf(_leg_r.rotation.x, -stride * 0.85, 10.0 * delta)
 		_leg_r.position.z = lerpf(_leg_r.position.z, -0.05 - 0.08 * stride, 10.0 * delta)
-		_leg_r.position.y = lerpf(_leg_r.position.y, -0.31 - 0.02 * absf(stride), 10.0 * delta)
+		_leg_r.position.y = lerpf(_leg_r.position.y, -0.34 - 0.02 * absf(stride), 10.0 * delta)
 	if _foot_l:
-		_foot_l.position.y = lerpf(_foot_l.position.y, -0.27 - 0.02 * maxf(0.0, -stride), 10.0 * delta)
+		_foot_l.position.y = lerpf(_foot_l.position.y, -0.37 - 0.02 * maxf(0.0, -stride), 10.0 * delta)
 	if _foot_r:
-		_foot_r.position.y = lerpf(_foot_r.position.y, -0.27 - 0.02 * maxf(0.0, stride), 10.0 * delta)
+		_foot_r.position.y = lerpf(_foot_r.position.y, -0.37 - 0.02 * maxf(0.0, stride), 10.0 * delta)
 	if _arm_l:
 		_arm_l.rotation.x = lerpf(_arm_l.rotation.x, -stride * 0.6 - 0.12 * local_velocity.x, 10.0 * delta)
 	if _arm_r:
@@ -164,14 +164,14 @@ func _build_visual_rig() -> void:
 	_mesh.mesh = torso
 	_mesh.set_surface_override_material(0, _make_part_material(Color(0.94, 0.96, 0.98, 1.0), Color(0.10, 0.14, 0.18)))
 
-	_head = _make_sphere_part("Head", 0.17, Vector3(0.0, 0.40, 0.0), Color(0.93, 0.82, 0.66, 1.0), Vector3(1.0, 1.08, 1.0))
-	_hair = _make_sphere_part("Hair", 0.15, Vector3(0.0, 0.48, -0.03), Color(0.24, 0.19, 0.14, 1.0), Vector3(1.0, 0.56, 0.84))
+	_head = _make_sphere_part("Head", 0.17, Vector3(0.0, 0.34, 0.0), Color(0.93, 0.82, 0.66, 1.0), Vector3(1.0, 1.08, 1.0))
+	_hair = _make_sphere_part("Hair", 0.15, Vector3(0.0, 0.42, -0.03), Color(0.24, 0.19, 0.14, 1.0), Vector3(1.0, 0.56, 0.84))
 	_arm_l = _make_capsule_part("ArmL", 0.05, 0.24, Vector3(-0.21, 0.05, 0.0), Color(0.95, 0.96, 0.98, 1.0), Vector3(0.0, 0.0, 10.0))
 	_arm_r = _make_capsule_part("ArmR", 0.05, 0.24, Vector3(0.21, 0.05, 0.0), Color(0.95, 0.96, 0.98, 1.0), Vector3(0.0, 0.0, -10.0))
-	_leg_l = _make_capsule_part("LegL", 0.05, 0.26, Vector3(-0.09, -0.31, 0.03), Color(0.22, 0.24, 0.28, 1.0))
-	_leg_r = _make_capsule_part("LegR", 0.05, 0.26, Vector3(0.09, -0.31, -0.03), Color(0.22, 0.24, 0.28, 1.0))
-	_foot_l = _make_box_part("FootL", Vector3(0.12, 0.06, 0.20), Vector3(-0.09, -0.27, 0.06), Color(0.10, 0.12, 0.16, 1.0))
-	_foot_r = _make_box_part("FootR", Vector3(0.12, 0.06, 0.20), Vector3(0.09, -0.27, -0.06), Color(0.10, 0.12, 0.16, 1.0))
+	_leg_l = _make_capsule_part("LegL", 0.05, 0.26, Vector3(-0.09, -0.34, 0.03), Color(0.22, 0.24, 0.28, 1.0))
+	_leg_r = _make_capsule_part("LegR", 0.05, 0.26, Vector3(0.09, -0.34, -0.03), Color(0.22, 0.24, 0.28, 1.0))
+	_foot_l = _make_box_part("FootL", Vector3(0.12, 0.06, 0.20), Vector3(-0.09, -0.37, 0.06), Color(0.10, 0.12, 0.16, 1.0))
+	_foot_r = _make_box_part("FootR", Vector3(0.12, 0.06, 0.20), Vector3(0.09, -0.37, -0.06), Color(0.10, 0.12, 0.16, 1.0))
 	_scarf = _make_prism_part("Scarf", Vector3(0.24, 0.12, 0.18), Vector3(0.0, 0.10, 0.12), Color(0.28, 0.56, 0.68, 1.0))
 	_coat = _make_prism_part("CoatTail", Vector3(0.40, 0.34, 0.28), Vector3(0.0, -0.02, 0.0), Color(0.88, 0.90, 0.95, 1.0))
 	_make_prism_part("ShoulderCape", Vector3(0.34, 0.14, 0.20), Vector3(0.0, 0.15, -0.01), Color(0.90, 0.92, 0.97, 1.0))

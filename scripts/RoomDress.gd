@@ -60,10 +60,10 @@ static func _dress_print_room(room: Node3D) -> void:
 	_mute_placeholders(objects)
 
 	var decor := _ensure_child(room, "Decor")
-	_add_press_table(decor, "PressTableA", Vector3(5.5, 0.0, 3.5), 3.0)
-	_add_press_table(decor, "PressTableB", Vector3(10.5, 0.0, 3.5), 3.0)
-	_add_loose_roll(decor, "PrintRollA", Vector3(7.5, 0.0, 6.5), 0.32)
-	_add_loose_roll(decor, "PrintRollB", Vector3(8.5, 0.0, 6.5), 0.32)
+	_add_press_table(decor, "PressTableA", Vector3(5.5, 0.0, 3.5), 2.4)
+	_add_press_table(decor, "PressTableB", Vector3(10.5, 0.0, 3.5), 2.4)
+	_add_loose_roll(decor, "PrintRollA", Vector3(6.9, 0.0, 6.9), 0.26)
+	_add_loose_roll(decor, "PrintRollB", Vector3(9.1, 0.0, 6.9), 0.26)
 
 	var pickups := _ensure_child(room, "Pickups")
 	_add_pickup(pickups, "print_solvent", "Cleaning Solvent", "solvent", 8, Vector3(5.4, 0.74, 3.1))
@@ -179,7 +179,7 @@ static func _add_warehouse_rack(parent: Node3D, name: String, pos: Vector3, leng
 		_add_box_mesh(body, "BoxB", Vector3(0.34, 0.30, 0.40), Vector3(0.18, y - 1.05, 0.34), _mat(Color(0.82, 0.74, 0.58, 1.0)))
 
 static func _add_press_table(parent: Node3D, name: String, pos: Vector3, width: float) -> void:
-	var body := _body(name, pos + Vector3(0.0, 0.55, 0.0), Vector3(width, 1.2, 1.2))
+	var body := _body(name, pos + Vector3(0.0, 0.55, 0.0), Vector3(width * 0.86, 0.96, 0.86))
 	parent.add_child(body)
 	_add_box_mesh(body, "Base", Vector3(width, 0.42, 1.12), Vector3(0.0, -0.14, 0.0), _mat(Color(0.54, 0.62, 0.64, 1.0)))
 	_add_box_mesh(body, "Top", Vector3(width * 0.92, 0.10, 1.04), Vector3(0.0, 0.34, 0.0), _mat(Color(0.86, 0.80, 0.66, 1.0)))
@@ -187,7 +187,7 @@ static func _add_press_table(parent: Node3D, name: String, pos: Vector3, width: 
 		_add_cylinder_mesh(body, "Roller", 0.14, 0.96, Vector3(x, 0.16, 0.0), Vector3(90.0, 0.0, 0.0), _mat(Color(0.30, 0.42, 0.48, 1.0)))
 
 static func _add_loose_roll(parent: Node3D, name: String, pos: Vector3, radius: float) -> void:
-	var body := _body(name, pos + Vector3(0.0, radius, 0.0), Vector3(radius * 2.0, radius * 2.0, radius * 2.0))
+	var body := _body(name, pos + Vector3(0.0, radius, 0.0), Vector3(radius * 1.35, radius * 1.35, radius * 1.35))
 	parent.add_child(body)
 	_add_cylinder_mesh(body, "Roll", radius, radius * 2.2, Vector3.ZERO, Vector3(0.0, 0.0, 90.0), _mat(Color(0.90, 0.88, 0.80, 1.0)))
 	_add_cylinder_mesh(body, "Core", radius * 0.28, radius * 2.34, Vector3.ZERO, Vector3(0.0, 0.0, 90.0), _mat(Color(0.62, 0.48, 0.30, 1.0)))

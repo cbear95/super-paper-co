@@ -20,6 +20,7 @@ var _foot_r: MeshInstance3D = null
 
 func _ready() -> void:
 	add_to_group("npc")
+	position.y = 0.5
 	_build_visual_rig()
 	set_process(true)
 
@@ -28,7 +29,7 @@ func _process(delta: float) -> void:
 	if mesh == null:
 		return
 	var t: float = Time.get_ticks_msec() * 0.001 + float(name.hash() % 17)
-	mesh.position.y = 0.78 + sin(t * 1.6) * 0.02
+	mesh.position.y = -0.18 + sin(t * 1.6) * 0.004
 	mesh.rotation.z = sin(t * 1.1) * 0.025
 	mesh.rotation.y = lerp_angle(mesh.rotation.y, _target_yaw, 7.0 * delta)
 	if _hair:
@@ -81,7 +82,7 @@ func _build_visual_rig() -> void:
 	torso.radius = 0.15
 	torso.height = 0.42
 	root.mesh = torso
-	root.position = Vector3(0.0, 0.60, 0.0)
+	root.position = Vector3(0.0, -0.18, 0.0)
 	root.set_surface_override_material(0, _part_material(Color(0.92, 0.95, 0.97, 1.0), Color(0.08, 0.10, 0.12)))
 
 	for child: Node in root.get_children():
@@ -90,14 +91,19 @@ func _build_visual_rig() -> void:
 	var skin := _skin_color()
 	var accent := dial_color.lerp(Color(1.0, 1.0, 1.0, 1.0), 0.20)
 	var pants := Color(0.24, 0.27, 0.31, 1.0)
-	_make_sphere_part(root, "Head", 0.17, Vector3(0.0, 0.40, 0.0), skin, Vector3(1.0, 1.08, 1.0))
-	_hair = _make_sphere_part(root, "Hair", 0.15, Vector3(0.0, 0.48, -0.03), _hair_color(), Vector3(1.0, 0.56, 0.84))
+	_make_sphere_part(root, "Head", 0.17, Vector3(0.0, 0.34, 0.0), skin, Vector3(1.0, 1.08, 1.0))
+	_hair = _make_sphere_part(root, "Hair", 0.15, Vector3(0.0, 0.42, -0.03), _hair_color(), Vector3(1.0, 0.56, 0.84))
 	_make_capsule_part(root, "ArmL", 0.05, 0.24, Vector3(-0.21, 0.05, 0.0), accent, Vector3(0.0, 0.0, 10.0))
 	_make_capsule_part(root, "ArmR", 0.05, 0.24, Vector3(0.21, 0.05, 0.0), accent, Vector3(0.0, 0.0, -10.0))
-	_make_capsule_part(root, "LegL", 0.05, 0.26, Vector3(-0.09, -0.31, 0.03), pants)
-	_make_capsule_part(root, "LegR", 0.05, 0.26, Vector3(0.09, -0.31, -0.03), pants)
-	_foot_l = _make_box_part(root, "FootL", Vector3(0.12, 0.06, 0.20), Vector3(-0.09, -0.27, 0.06), Color(0.10, 0.12, 0.16, 1.0))
-	_foot_r = _make_box_part(root, "FootR", Vector3(0.12, 0.06, 0.20), Vector3(0.09, -0.27, -0.06), Color(0.10, 0.12, 0.16, 1.0))
+	_make_capsule_part(root, "LegL", 0.05, 0.26, Vector3(-0.09, -0.34, 0.03), pants)
+	_make_capsule_part(root, "LegR", 0.05, 0.26, Vector3(0.09, -0.34, -0.03), pants)
+	_foot_l = _make_box_part(root, "FootL", Vector3(0.12, 0.06, 0.20), Vector3(-0.09, -0.37, 0.06), Color(0.10, 0.12, 0.16, 1.0))
+	_foot_r = _make_box_part(root, "FootR", Vector3(0.12, 0.06, 0.20), Vector3(0.09, -0.37, -0.06), Color(0.10, 0.12, 0.16, 1.0))
+	if root.get_parent() is StaticBody3D:
+		var npc_body: StaticBody3D = root.get_parent()
+		var shape: CollisionShape3D = npc_body.get_node_or_null("Shape")
+		if shape:
+			shape.position = Vector3(0.0, 0.35, 0.0)
 	_scarf = _make_prism_part(root, "Scarf", Vector3(0.24, 0.12, 0.18), Vector3(0.0, 0.10, 0.12), dial_color)
 	_make_prism_part(root, "CoatTail", Vector3(0.40, 0.34, 0.28), Vector3(0.0, -0.02, 0.0), accent)
 	_make_prism_part(root, "ShoulderCape", Vector3(0.34, 0.14, 0.20), Vector3(0.0, 0.15, -0.02), accent)

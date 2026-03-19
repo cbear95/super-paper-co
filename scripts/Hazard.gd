@@ -10,10 +10,13 @@ const OUTLINE_SHADER := preload("res://shaders/outline_next_pass.gdshader")
 
 var _dir : float = 1.0
 var _dist: float = 0.0
+var _travel_dir: Vector3 = Vector3.RIGHT
 
 func _ready() -> void:
 	add_to_group("hazard")
 	collision_mask = 4
+	randomize()
+	_seed_motion_pattern()
 	_build_visual()
 	var area: Area3D = $HitArea
 	if area:
@@ -28,10 +31,7 @@ func _physics_process(delta: float) -> void:
 	if _dist >= patrol_dist:
 		_dir  *= -1.0
 		_dist  = 0.0
-	if patrol_axis == "z":
-		velocity = Vector3(0.0, 0.0, speed * _dir)
-	else:
-		velocity = Vector3(speed * _dir, 0.0, 0.0)
+	velocity = _travel_dir * speed * _dir
 	move_and_slide()
 
 func _on_body_entered(body: Node) -> void:
@@ -54,6 +54,35 @@ func _build_visual() -> void:
 		_build_forklift(root)
 	else:
 		_build_paper_roll(root)
+
+func _seed_motion_pattern() -> void:
+	var seed := abs((name + str(Time.get_unix_time_from_system()) + str(randi())).hash())
+	var options: Array[Vector3] = [
+		Vector3(1.0, 0.0, 0.0),
+		Vector3(-1.0, 0.0, 0.0),
+		Vector3(0.0, 0.0, 1.0),
+		Vector3(0.0, 0.0, -1.0),
+		Vector3(1.0, 0.0, 1.0).normalized(),
+		Vector3(-1.0, 0.0, 1.0).normalized(),
+		Vector3(1.0, 0.0, -1.0).normalized(),
+		Vector3(-1.0, 0.0, -1.0).normalized(),
+	]
+	if patrol_axis == "x":
+		options = [
+			Vector3(1.0, 0.0, 0.0),
+			Vector3(-1.0, 0.0, 0.0),
+			Vector3(1.0, 0.0, 1.0).normalized(),
+			Vector3(1.0, 0.0, -1.0).normalized(),
+		]
+	elif patrol_axis == "z":
+		options = [
+			Vector3(0.0, 0.0, 1.0),
+			Vector3(0.0, 0.0, -1.0),
+			Vector3(1.0, 0.0, 1.0).normalized(),
+			Vector3(-1.0, 0.0, 1.0).normalized(),
+		]
+	_travel_dir = options[seed % options.size()]
+	_dir = -1.0 if seed % 2 == 0 else 1.0
 
 func _build_forklift(root: Node3D) -> void:
 	var body_mat := _mat(Color(0.82, 0.65, 0.24, 1.0), Color(0.10, 0.08, 0.03))

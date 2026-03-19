@@ -69,8 +69,8 @@ func _build_room() -> void:
 	var exits := Node3D.new()
 	exits.name = "Exits"
 	add_child(exits)
-	RoomBuildRef.add_exit(exits, "ExitWarehouse", Vector3(0.5, 0.75, 7.5), "Warehouse", Vector3(14.5, 0.5, 7.5), "x")
-	RoomBuildRef.add_exit(exits, "ExitPressHall", Vector3(21.5, 0.75, 7.5), "PressHall", Vector3(21.5, 0.5, 8.5), "x")
+	RoomBuildRef.add_exit(exits, "ExitWarehouse", Vector3(0.5, 0.75, 7.5), "Warehouse", Vector3(13.5, 0.5, 7.5), "x")
+	RoomBuildRef.add_exit(exits, "ExitPressHall", Vector3(21.5, 0.75, 7.5), "PressHall", Vector3(19.5, 0.5, 8.5), "x")
 
 	var tasks := Node3D.new()
 	tasks.name = "Tasks"

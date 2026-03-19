@@ -143,7 +143,7 @@ static func add_exit(parent: Node3D, name: String, pos: Vector3, dest_room: Stri
 	var shape := CollisionShape3D.new()
 	shape.name = "Shape"
 	var box := BoxShape3D.new()
-	box.size = Vector3(1.2, 1.5, 1.2)
+	box.size = Vector3(2.4, 1.8, 2.4)
 	shape.shape = box
 	area.add_child(shape)
 	parent.add_child(area)
@@ -189,7 +189,7 @@ static func add_npc(
 	capsule_shape.radius = 0.28
 	capsule_shape.height = 1.3
 	shape.shape = capsule_shape
-	shape.position = Vector3(0.0, 0.75, 0.0)
+	shape.position = Vector3(0.0, 0.35, 0.0)
 	body.add_child(shape)
 
 	var hint := Label3D.new()
