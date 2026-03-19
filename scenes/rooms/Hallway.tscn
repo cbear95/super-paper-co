@@ -1,0 +1,991 @@
+[gd_scene load_steps=113 format=3 uid="uid://hallway"]
+
+[ext_resource type="Script" path="res://scripts/NPC.gd"      id="npc_s"]
+[ext_resource type="Script" path="res://scripts/ExitZone.gd"  id="exit_s"]
+[ext_resource type="Script" path="res://scripts/TaskZone.gd"  id="task_s"]
+[ext_resource type="Script" path="res://scripts/Hazard.gd"    id="haz_s"]
+
+[sub_resource type="PlaneMesh" id="FloorMesh"]
+size = Vector2(16.0, 10.0)
+
+[sub_resource type="BoxShape3D" id="FloorShape"]
+size = Vector3(16.0, 0.2, 10.0)
+
+[sub_resource type="BoxMesh" id="WM0"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS0"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM1"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS1"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM2"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS2"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM3"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS3"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM4"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS4"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM5"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS5"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM6"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS6"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM7"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS7"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM8"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS8"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM9"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS9"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM10"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS10"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM11"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS11"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM12"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS12"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM13"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS13"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM14"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS14"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM15"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS15"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM16"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS16"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM17"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS17"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM18"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS18"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM19"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS19"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM20"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS20"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM21"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS21"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM22"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS22"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM23"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS23"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM24"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS24"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM25"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS25"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM26"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS26"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM27"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS27"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM28"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS28"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM29"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS29"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM30"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS30"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM31"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS31"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM32"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS32"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM33"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS33"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM34"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS34"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM35"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS35"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM36"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS36"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM37"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS37"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM38"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS38"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM39"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS39"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM40"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS40"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM41"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS41"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM42"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS42"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM43"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS43"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM44"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS44"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM45"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS45"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM46"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS46"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="WM47"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="WS47"]
+size = Vector3(1.0, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="OM0"]
+size = Vector3(0.85, 1.20, 0.85)
+
+[sub_resource type="BoxShape3D" id="OS0"]
+size = Vector3(0.85, 1.20, 0.85)
+
+[sub_resource type="CapsuleMesh" id="NM0"]
+radius = 0.26
+height = 1.5
+
+[sub_resource type="CapsuleShape3D" id="NS0"]
+radius = 0.26
+height = 1.5
+
+[sub_resource type="BoxShape3D" id="ES0"]
+size = Vector3(1.2, 1.5, 1.2)
+
+[sub_resource type="BoxShape3D" id="ES1"]
+size = Vector3(1.2, 1.5, 1.2)
+
+[sub_resource type="BoxShape3D" id="ES2"]
+size = Vector3(1.2, 1.5, 1.2)
+
+[sub_resource type="BoxMesh" id="HM0"]
+size = Vector3(1.4, 1.2, 1.4)
+
+[sub_resource type="BoxShape3D" id="HS0"]
+size = Vector3(1.4, 1.2, 1.4)
+
+[sub_resource type="BoxShape3D" id="HAS0"]
+size = Vector3(1.6, 1.4, 1.6)
+
+[node name="Hallway" type="Node3D"]
+
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 2
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
+position = Vector3(8.0, 0.0, 5.0)
+mesh = SubResource("FloorMesh")
+
+[node name="FloorShape" type="CollisionShape3D" parent="Floor"]
+position = Vector3(8.0, -0.1, 5.0)
+shape = SubResource("FloorShape")
+
+[node name="Walls" type="Node3D" parent="."]
+
+
+[node name="W0" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W0"]
+mesh = SubResource("WM0")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W0"]
+shape = SubResource("WS0")
+
+
+[node name="W1" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W1"]
+mesh = SubResource("WM1")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W1"]
+shape = SubResource("WS1")
+
+
+[node name="W2" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(1.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W2"]
+mesh = SubResource("WM2")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W2"]
+shape = SubResource("WS2")
+
+
+[node name="W3" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(1.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W3"]
+mesh = SubResource("WM3")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W3"]
+shape = SubResource("WS3")
+
+
+[node name="W4" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(2.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W4"]
+mesh = SubResource("WM4")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W4"]
+shape = SubResource("WS4")
+
+
+[node name="W5" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(2.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W5"]
+mesh = SubResource("WM5")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W5"]
+shape = SubResource("WS5")
+
+
+[node name="W6" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(3.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W6"]
+mesh = SubResource("WM6")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W6"]
+shape = SubResource("WS6")
+
+
+[node name="W7" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(3.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W7"]
+mesh = SubResource("WM7")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W7"]
+shape = SubResource("WS7")
+
+
+[node name="W8" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(4.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W8"]
+mesh = SubResource("WM8")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W8"]
+shape = SubResource("WS8")
+
+
+[node name="W9" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(4.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W9"]
+mesh = SubResource("WM9")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W9"]
+shape = SubResource("WS9")
+
+
+[node name="W10" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(5.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W10"]
+mesh = SubResource("WM10")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W10"]
+shape = SubResource("WS10")
+
+
+[node name="W11" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(5.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W11"]
+mesh = SubResource("WM11")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W11"]
+shape = SubResource("WS11")
+
+
+[node name="W12" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(6.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W12"]
+mesh = SubResource("WM12")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W12"]
+shape = SubResource("WS12")
+
+
+[node name="W13" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(6.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W13"]
+mesh = SubResource("WM13")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W13"]
+shape = SubResource("WS13")
+
+
+[node name="W14" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(7.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W14"]
+mesh = SubResource("WM14")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W14"]
+shape = SubResource("WS14")
+
+
+[node name="W15" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(7.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W15"]
+mesh = SubResource("WM15")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W15"]
+shape = SubResource("WS15")
+
+
+[node name="W16" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(8.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W16"]
+mesh = SubResource("WM16")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W16"]
+shape = SubResource("WS16")
+
+
+[node name="W17" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(8.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W17"]
+mesh = SubResource("WM17")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W17"]
+shape = SubResource("WS17")
+
+
+[node name="W18" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(9.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W18"]
+mesh = SubResource("WM18")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W18"]
+shape = SubResource("WS18")
+
+
+[node name="W19" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(9.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W19"]
+mesh = SubResource("WM19")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W19"]
+shape = SubResource("WS19")
+
+
+[node name="W20" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(10.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W20"]
+mesh = SubResource("WM20")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W20"]
+shape = SubResource("WS20")
+
+
+[node name="W21" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(10.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W21"]
+mesh = SubResource("WM21")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W21"]
+shape = SubResource("WS21")
+
+
+[node name="W22" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(11.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W22"]
+mesh = SubResource("WM22")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W22"]
+shape = SubResource("WS22")
+
+
+[node name="W23" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(11.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W23"]
+mesh = SubResource("WM23")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W23"]
+shape = SubResource("WS23")
+
+
+[node name="W24" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(12.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W24"]
+mesh = SubResource("WM24")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W24"]
+shape = SubResource("WS24")
+
+
+[node name="W25" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(12.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W25"]
+mesh = SubResource("WM25")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W25"]
+shape = SubResource("WS25")
+
+
+[node name="W26" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(13.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W26"]
+mesh = SubResource("WM26")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W26"]
+shape = SubResource("WS26")
+
+
+[node name="W27" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(13.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W27"]
+mesh = SubResource("WM27")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W27"]
+shape = SubResource("WS27")
+
+
+[node name="W28" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(14.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W28"]
+mesh = SubResource("WM28")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W28"]
+shape = SubResource("WS28")
+
+
+[node name="W29" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(14.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W29"]
+mesh = SubResource("WM29")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W29"]
+shape = SubResource("WS29")
+
+
+[node name="W30" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W30"]
+mesh = SubResource("WM30")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W30"]
+shape = SubResource("WS30")
+
+
+[node name="W31" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 9.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W31"]
+mesh = SubResource("WM31")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W31"]
+shape = SubResource("WS31")
+
+
+[node name="W32" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 1.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W32"]
+mesh = SubResource("WM32")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W32"]
+shape = SubResource("WS32")
+
+
+[node name="W33" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 1.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W33"]
+mesh = SubResource("WM33")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W33"]
+shape = SubResource("WS33")
+
+
+[node name="W34" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 2.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W34"]
+mesh = SubResource("WM34")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W34"]
+shape = SubResource("WS34")
+
+
+[node name="W35" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 2.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W35"]
+mesh = SubResource("WM35")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W35"]
+shape = SubResource("WS35")
+
+
+[node name="W36" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 3.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W36"]
+mesh = SubResource("WM36")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W36"]
+shape = SubResource("WS36")
+
+
+[node name="W37" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 3.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W37"]
+mesh = SubResource("WM37")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W37"]
+shape = SubResource("WS37")
+
+
+[node name="W38" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 4.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W38"]
+mesh = SubResource("WM38")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W38"]
+shape = SubResource("WS38")
+
+
+[node name="W39" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 4.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W39"]
+mesh = SubResource("WM39")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W39"]
+shape = SubResource("WS39")
+
+
+[node name="W40" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 5.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W40"]
+mesh = SubResource("WM40")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W40"]
+shape = SubResource("WS40")
+
+
+[node name="W41" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 5.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W41"]
+mesh = SubResource("WM41")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W41"]
+shape = SubResource("WS41")
+
+
+[node name="W42" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 6.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W42"]
+mesh = SubResource("WM42")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W42"]
+shape = SubResource("WS42")
+
+
+[node name="W43" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 6.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W43"]
+mesh = SubResource("WM43")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W43"]
+shape = SubResource("WS43")
+
+
+[node name="W44" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 7.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W44"]
+mesh = SubResource("WM44")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W44"]
+shape = SubResource("WS44")
+
+
+[node name="W45" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 7.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W45"]
+mesh = SubResource("WM45")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W45"]
+shape = SubResource("WS45")
+
+
+[node name="W46" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(0.5, 1.1, 8.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W46"]
+mesh = SubResource("WM46")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W46"]
+shape = SubResource("WS46")
+
+
+[node name="W47" type="StaticBody3D" parent="Walls"]
+collision_layer = 4
+position = Vector3(15.5, 1.1, 8.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/W47"]
+mesh = SubResource("WM47")
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/W47"]
+shape = SubResource("WS47")
+
+[node name="Objects" type="Node3D" parent="."]
+
+
+[node name="O0" type="StaticBody3D" parent="Objects"]
+collision_layer = 4
+position = Vector3(14.5, 0.60, 4.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Objects/O0"]
+mesh = SubResource("OM0")
+
+[node name="Shape" type="CollisionShape3D" parent="Objects/O0"]
+shape = SubResource("OS0")
+
+[node name="NPCs" type="Node3D" parent="."]
+
+
+[node name="DaleSales" type="StaticBody3D" parent="NPCs"]
+script = ExtResource("npc_s")
+collision_layer = 4
+position = Vector3(8.5, 0.75, 4.5)
+npc_id = "dale"
+npc_name = "Dale (Sales)"
+npc_role = "Regional Sales Rep"
+portrait_type = "sales"
+dial_color = Color(0.88,0.63,0.12,1.0)
+stress_add = 10.0
+xp_add = 0
+boss_chance = 0.00
+dial_sets = ["HEY! Just the person I needed!|When is the coating project DONE?|I told the client next week. Make it happen.", "The client is breathing down my neck.|Can you just make it work faster? It is just chemistry, right?", "I do not need the technical details. Green light or red light?|The board does not understand viscosity. Neither do I."]
+
+[node name="Mesh" type="MeshInstance3D" parent="NPCs/DaleSales"]
+mesh = SubResource("NM0")
+
+[node name="Shape" type="CollisionShape3D" parent="NPCs/DaleSales"]
+shape = SubResource("NS0")
+
+[node name="Hint" type="Label3D" parent="NPCs/DaleSales"]
+position = Vector3(0.0, 2.0, 0.0)
+text = "[E] Talk"
+font_size = 40
+modulate = Color(1.0, 0.94, 0.3, 1.0)
+
+[node name="Exits" type="Node3D" parent="."]
+
+
+[node name="ExitLab" type="Area3D" parent="Exits"]
+script = ExtResource("exit_s")
+position = Vector3(0.5, 0.75, 4.5)
+dest_room = "Lab"
+spawn_pos = Vector3(14.0, 0.5, 6.0)
+
+[node name="Shape" type="CollisionShape3D" parent="Exits/ExitLab"]
+shape = SubResource("ES0")
+
+
+[node name="ExitBoss" type="Area3D" parent="Exits"]
+script = ExtResource("exit_s")
+position = Vector3(15.5, 0.75, 5.5)
+dest_room = "BossOffice"
+spawn_pos = Vector3(1.0, 0.5, 4.0)
+
+[node name="Shape" type="CollisionShape3D" parent="Exits/ExitBoss"]
+shape = SubResource("ES1")
+
+
+[node name="ExitPrint" type="Area3D" parent="Exits"]
+script = ExtResource("exit_s")
+position = Vector3(8.5, 0.75, 9.5)
+dest_room = "PrintRoom"
+spawn_pos = Vector3(4.0, 0.5, 1.0)
+
+[node name="Shape" type="CollisionShape3D" parent="Exits/ExitPrint"]
+shape = SubResource("ES2")
+
+[node name="Tasks" type="Node3D" parent="."]
+
+[node name="Hazards" type="Node3D" parent="."]
+
+
+[node name="Forklift1" type="CharacterBody3D" parent="Hazards"]
+script = ExtResource("haz_s")
+position = Vector3(5.5, 0.6, 3.5)
+collision_layer = 1
+collision_mask = 3
+patrol_dist = 9.0
+speed = 2.8
+damage = 1
+stress_hit = 15.0
+
+[node name="Mesh" type="MeshInstance3D" parent="Hazards/Forklift1"]
+mesh = SubResource("HM0")
+
+[node name="HitArea" type="Area3D" parent="Hazards/Forklift1"]
+
+[node name="HitShape" type="CollisionShape3D" parent="Hazards/Forklift1/HitArea"]
+shape = SubResource("HAS0")
+
+[node name="Shape" type="CollisionShape3D" parent="Hazards/Forklift1"]
+shape = SubResource("HS0")
+
+
+[node name="Light1" type="SpotLight3D" parent="."]
+position = Vector3(4.5, 5.0, 4.5)
+rotation_degrees = Vector3(-90.0, 0.0, 0.0)
+light_energy = 1.6
+spot_range = 9.0
+spot_angle = 36.0
+
+[node name="Light2" type="SpotLight3D" parent="."]
+position = Vector3(12.5, 5.0, 4.5)
+rotation_degrees = Vector3(-90.0, 0.0, 0.0)
+light_energy = 1.6
+spot_range = 9.0
+spot_angle = 36.0

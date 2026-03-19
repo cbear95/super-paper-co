@@ -1,0 +1,254 @@
+[gd_scene load_steps=11 format=3 uid="uid://gameworld"]
+
+[ext_resource type="Script" path="res://scripts/GameWorld.gd"   id="1_gw"]
+[ext_resource type="Script" path="res://scripts/Player.gd"      id="2_pl"]
+[ext_resource type="Script" path="res://scripts/IsoCamera.gd"   id="3_cam"]
+[ext_resource type="Script" path="res://scripts/HUD.gd"         id="4_hud"]
+[ext_resource type="Script" path="res://scripts/DialogueBox.gd" id="5_db"]
+[ext_resource type="Script" path="res://scripts/Portrait.gd"    id="6_pt"]
+
+[sub_resource type="CapsuleMesh" id="PlayerMesh"]
+radius = 0.28
+height = 1.6
+
+[sub_resource type="CapsuleShape3D" id="PlayerShape"]
+radius = 0.28
+height = 1.6
+
+[sub_resource type="SphereShape3D" id="InteractSphere"]
+radius = 1.2
+
+[sub_resource type="Environment" id="WorldEnv"]
+background_mode = 1
+background_color = Color(0.06, 0.07, 0.10, 1)
+ambient_light_color = Color(0.55, 0.60, 0.72, 1)
+ambient_light_energy = 0.55
+glow_enabled = true
+glow_bloom = 0.08
+glow_blend_mode = 2
+ssao_enabled = true
+
+
+[node name="GameWorld" type="Node3D"]
+script = ExtResource("1_gw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("WorldEnv")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52.0, 42.0, 0.0)
+light_energy = 0.85
+shadow_enabled = true
+
+[node name="RoomContainer" type="Node3D" parent="."]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("2_pl")
+position = Vector3(5.0, 0.5, 5.0)
+collision_layer = 1
+collision_mask = 6
+
+[node name="Mesh" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("PlayerMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("PlayerShape")
+
+[node name="InteractArea" type="Area3D" parent="Player"]
+collision_layer = 0
+collision_mask = 5
+monitoring = true
+
+[node name="InteractShape" type="CollisionShape3D" parent="Player/InteractArea"]
+shape = SubResource("InteractSphere")
+
+[node name="IsoCamera" type="Camera3D" parent="."]
+script = ExtResource("3_cam")
+position = Vector3(15.0, 16.0, 15.0)
+rotation_degrees = Vector3(-30.0, 45.0, 0.0)
+projection = 1
+size = 13.0
+far = 200.0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("4_hud")
+layer = 5
+
+[node name="HurtOverlay" type="ColorRect" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(1.0, 0.0, 0.1, 0.0)
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="HUD"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 230.0
+offset_bottom = 168.0
+
+[node name="M" type="MarginContainer" parent="HUD/Panel"]
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Stats" type="VBoxContainer" parent="HUD/Panel/M"]
+theme_override_constants/separation = 5
+
+[node name="HPRow" type="HBoxContainer" parent="HUD/Panel/M/Stats"]
+
+[node name="HPLbl" type="Label" parent="HUD/Panel/M/Stats/HPRow"]
+text = "HP  "
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.68, 0.78, 0.85, 1.0)
+
+[node name="Hearts" type="HBoxContainer" parent="HUD/Panel/M/Stats/HPRow"]
+
+[node name="StrRow" type="HBoxContainer" parent="HUD/Panel/M/Stats"]
+
+[node name="StrLbl" type="Label" parent="HUD/Panel/M/Stats/StrRow"]
+text = "STR "
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.68, 0.78, 0.85, 1.0)
+
+[node name="Bar" type="ProgressBar" parent="HUD/Panel/M/Stats/StrRow"]
+custom_minimum_size = Vector2(118.0, 13.0)
+max_value = 100.0
+theme_override_colors/fill = Color(0.87, 0.37, 0.18, 1.0)
+theme_override_colors/background = Color(0.20, 0.07, 0.04, 1.0)
+
+[node name="XPRow" type="HBoxContainer" parent="HUD/Panel/M/Stats"]
+
+[node name="XPKey" type="Label" parent="HUD/Panel/M/Stats/XPRow"]
+text = "XP  "
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.68, 0.78, 0.85, 1.0)
+
+[node name="Bar" type="ProgressBar" parent="HUD/Panel/M/Stats/XPRow"]
+custom_minimum_size = Vector2(88.0, 13.0)
+max_value = 100.0
+theme_override_colors/fill = Color(0.24, 0.74, 0.48, 1.0)
+theme_override_colors/background = Color(0.06, 0.20, 0.11, 1.0)
+
+[node name="Lbl" type="Label" parent="HUD/Panel/M/Stats/XPRow"]
+text = "XP 0"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.30, 0.70, 0.46, 1.0)
+
+[node name="MntRow" type="HBoxContainer" parent="HUD/Panel/M/Stats"]
+
+[node name="MntKey" type="Label" parent="HUD/Panel/M/Stats/MntRow"]
+text = "MNT "
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.68, 0.78, 0.85, 1.0)
+
+[node name="Bar" type="ProgressBar" parent="HUD/Panel/M/Stats/MntRow"]
+custom_minimum_size = Vector2(88.0, 13.0)
+max_value = 100.0
+theme_override_colors/fill = Color(0.36, 0.50, 1.0, 1.0)
+theme_override_colors/background = Color(0.06, 0.07, 0.18, 1.0)
+
+[node name="Lbl" type="Label" parent="HUD/Panel/M/Stats/MntRow"]
+text = "Grounded"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.30, 0.88, 0.50, 1.0)
+
+[node name="RoomLabel" type="Label" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -390.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 32.0
+text = "R&D Laboratory"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0, 0.62, 0.86, 0.80)
+
+[node name="TaskPop" type="PanelContainer" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -120.0
+offset_right = 178.0
+offset_bottom = -78.0
+visible = false
+
+[node name="M" type="MarginContainer" parent="HUD/TaskPop"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="Title" type="Label" parent="HUD/TaskPop/M"]
+text = "Task Complete"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.24, 0.74, 0.48, 1.0)
+
+[node name="DialogueBox" type="CanvasLayer" parent="."]
+script = ExtResource("5_db")
+layer = 10
+
+[node name="Panel" type="PanelContainer" parent="DialogueBox"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -178.0
+offset_right = -18.0
+offset_bottom = -14.0
+visible = false
+
+[node name="M" type="MarginContainer" parent="DialogueBox/Panel"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="DialogueBox/Panel/M"]
+theme_override_constants/separation = 5
+
+[node name="Header" type="HBoxContainer" parent="DialogueBox/Panel/M/VBox"]
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="DialogueBox/Panel/M/VBox/Header"]
+text = "NPC Name"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.4, 0.7, 1.0, 1.0)
+
+[node name="Role" type="Label" parent="DialogueBox/Panel/M/VBox/Header"]
+text = "Role"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.42, 0.55, 0.70, 1.0)
+
+[node name="Body" type="HBoxContainer" parent="DialogueBox/Panel/M/VBox"]
+theme_override_constants/separation = 14
+
+[node name="Portrait" type="Control" parent="DialogueBox/Panel/M/VBox/Body"]
+script = ExtResource("6_pt")
+custom_minimum_size = Vector2(68.0, 92.0)
+
+[node name="Text" type="RichTextLabel" parent="DialogueBox/Panel/M/VBox/Body"]
+custom_minimum_size = Vector2(0.0, 82.0)
+size_flags_horizontal = 3
+scroll_active = false
+theme_override_font_sizes/normal_font_size = 14
+theme_override_colors/default_color = Color(0.82, 0.90, 0.98, 1.0)
+
+[node name="Footer" type="HBoxContainer" parent="DialogueBox/Panel/M/VBox"]
+
+[node name="Dots" type="HBoxContainer" parent="DialogueBox/Panel/M/VBox/Footer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Hint" type="Label" parent="DialogueBox/Panel/M/VBox/Footer"]
+text = "[ SPACE ] Continue"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.0, 0.86, 1.0, 0.9)

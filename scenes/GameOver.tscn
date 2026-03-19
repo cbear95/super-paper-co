@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://gameover"]
+
+[ext_resource type="Script" path="res://scripts/GameOver.gd" id="1_go"]
+
+
+[node name="GameOver" type="Node2D"]
+script = ExtResource("1_go")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -160.0
+offset_bottom = -75.0
+text = "BURNED OUT"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 70
+theme_override_colors/font_color = Color(1.0, 0.18, 0.22, 1.0)
+
+[node name="Sub" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -55.0
+offset_bottom = -25.0
+text = "The stress got to you. The lab carries on without you."
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.78, 0.36, 0.36, 1.0)
+
+[node name="Retry" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 20.0
+offset_bottom = 50.0
+text = "[ ENTER ]  Try Again"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.88, 0.38, 0.32, 0.9)

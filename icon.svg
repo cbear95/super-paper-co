@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
+  <rect width="128" height="128" rx="16" fill="#060810"/>
+  <text x="64" y="46" font-family="monospace" font-size="13"
+        fill="#00b4ff" text-anchor="middle" font-weight="bold">SUPER</text>
+  <text x="64" y="72" font-family="monospace" font-size="21"
+        fill="#ffffff" text-anchor="middle" font-weight="bold">Paper</text>
+  <text x="64" y="95" font-family="monospace" font-size="19"
+        fill="#00b4ff" text-anchor="middle" font-weight="bold">Co.</text>
+</svg>

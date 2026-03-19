@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=3 uid="uid://titlescreen"]
+
+[ext_resource type="Script" path="res://scripts/TitleScreen.gd" id="1_ts"]
+
+
+[node name="TitleScreen" type="Node2D"]
+script = ExtResource("1_ts")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="SuperLabel" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -240.0
+offset_bottom = -205.0
+text = "S U P E R"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.314, 0.784, 1.0, 0.82)
+
+[node name="TitleLabel" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -175.0
+offset_bottom = -65.0
+text = "Paper Co."
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 82
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="SubLabel" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+offset_bottom = -16.0
+text = "A Day in the Life of an R&D Chemist"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.39, 0.62, 0.78, 0.85)
+
+[node name="StartLabel" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 28.0
+offset_bottom = 56.0
+text = "[ PRESS ENTER OR SPACE TO START ]"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.0, 0.86, 1.0, 0.95)
+
+[node name="VersionLabel" type="Label" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+offset_bottom = -6.0
+text = "v0.1 PROTOTYPE  |  HANDLE WITH CARE"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.16, 0.31, 0.47, 0.65)

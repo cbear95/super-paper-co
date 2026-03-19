@@ -1,0 +1,19 @@
+# Godot 4 .gitignore
+
+# Godot-specific ignores
+.godot/
+*.import
+
+# Exported builds
+export/
+export_presets.cfg
+
+# OS-generated
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
