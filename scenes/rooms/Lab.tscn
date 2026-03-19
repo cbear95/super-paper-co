@@ -615,16 +615,6 @@ mesh = SubResource("WM16")
 shape = SubResource("WS16")
 
 
-[node name="W17" type="StaticBody3D" parent="Walls"]
-collision_layer = 4
-position = Vector3(8.5, 1.1, 11.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="Walls/W17"]
-mesh = SubResource("WM17")
-
-[node name="Shape" type="CollisionShape3D" parent="Walls/W17"]
-shape = SubResource("WS17")
-
 
 [node name="W18" type="StaticBody3D" parent="Walls"]
 collision_layer = 4
@@ -901,16 +891,6 @@ mesh = SubResource("WM42")
 shape = SubResource("WS42")
 
 
-[node name="W43" type="StaticBody3D" parent="Walls"]
-collision_layer = 4
-position = Vector3(15.5, 1.1, 6.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="Walls/W43"]
-mesh = SubResource("WM43")
-
-[node name="Shape" type="CollisionShape3D" parent="Walls/W43"]
-shape = SubResource("WS43")
-
 
 [node name="W44" type="StaticBody3D" parent="Walls"]
 collision_layer = 4
@@ -1171,20 +1151,26 @@ modulate = Color(1.0, 0.94, 0.3, 1.0)
 
 
 [node name="ExitHallway" type="Area3D" parent="Exits"]
+collision_layer = 1
+collision_mask = 1
 script = ExtResource("exit_s")
 position = Vector3(15.5, 0.75, 6.5)
 dest_room = "Hallway"
 spawn_pos = Vector3(1.0, 0.5, 5.0)
+door_axis = "x"
 
 [node name="Shape" type="CollisionShape3D" parent="Exits/ExitHallway"]
 shape = SubResource("ES0")
 
 
 [node name="ExitWarehouse" type="Area3D" parent="Exits"]
+collision_layer = 1
+collision_mask = 1
 script = ExtResource("exit_s")
 position = Vector3(8.5, 0.75, 11.5)
 dest_room = "Warehouse"
 spawn_pos = Vector3(8.0, 0.5, 1.0)
+door_axis = "z"
 
 [node name="Shape" type="CollisionShape3D" parent="Exits/ExitWarehouse"]
 shape = SubResource("ES1")
@@ -1193,6 +1179,8 @@ shape = SubResource("ES1")
 
 
 [node name="TaskAdhesion" type="Area3D" parent="Tasks"]
+collision_layer = 1
+collision_mask = 1
 script = ExtResource("task_s")
 position = Vector3(3.5, 0.75, 2.5)
 task_id = "ink_adhesion"
@@ -1212,6 +1200,8 @@ modulate = Color(1.0, 0.90, 0.28, 1.0)
 
 
 [node name="TaskViscosity" type="Area3D" parent="Tasks"]
+collision_layer = 1
+collision_mask = 1
 script = ExtResource("task_s")
 position = Vector3(7.5, 0.75, 2.5)
 task_id = "viscosity_report"
