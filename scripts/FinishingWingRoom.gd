@@ -1,15 +1,17 @@
 extends Node3D
 
+const RoomBuildRef = preload("res://scripts/RoomBuild.gd")
+
 func _ready() -> void:
 	_build_room()
 
 func _build_room() -> void:
-	RoomBuild.add_floor(self, Vector2(22.0, 14.0), Vector3(11.0, 0.0, 7.0))
+	RoomBuildRef.add_floor(self, Vector2(22.0, 14.0), Vector3(11.0, 0.0, 7.0))
 
 	var walls := Node3D.new()
 	walls.name = "Walls"
 	add_child(walls)
-	RoomBuild.add_perimeter_walls(walls, 22, 14, [
+	RoomBuildRef.add_perimeter_walls(walls, 22, 14, [
 		Vector3(0.5, 1.1, 7.5),
 		Vector3(21.5, 1.1, 7.5),
 	])
@@ -26,8 +28,8 @@ func _build_room() -> void:
 	_add_machine(objects, "WrapStation", Vector3(18.2, 0.0, 9.4), Color(0.62, 0.64, 0.74, 1.0))
 	_add_loose_roll(objects, "RollA", Vector3(11.6, 0.0, 9.6), 0.36)
 	_add_loose_roll(objects, "RollB", Vector3(12.6, 0.0, 9.2), 0.28)
-	RoomBuild.add_pennant_line(self, Vector3(4.5, 4.4, 8.5), 5, 2.6, Color(0.92, 0.64, 0.32, 1.0))
-	RoomBuild.add_pennant_line(self, Vector3(6.0, 3.9, 11.2), 4, 2.8, Color(0.72, 0.88, 0.62, 1.0))
+	RoomBuildRef.add_pennant_line(self, Vector3(4.5, 4.4, 8.5), 5, 2.6, Color(0.92, 0.64, 0.32, 1.0))
+	RoomBuildRef.add_pennant_line(self, Vector3(6.0, 3.9, 11.2), 4, 2.8, Color(0.72, 0.88, 0.62, 1.0))
 	_add_ceiling_lamp(Vector3(6.0, 4.6, 4.5), Color(0.98, 0.88, 0.70, 1.0), 1.1)
 	_add_ceiling_lamp(Vector3(14.5, 4.6, 4.5), Color(0.88, 0.96, 1.00, 1.0), 1.0)
 	_add_ceiling_lamp(Vector3(16.5, 4.3, 10.0), Color(0.96, 0.92, 0.78, 1.0), 0.9)
@@ -35,7 +37,7 @@ func _build_room() -> void:
 	var npcs := Node3D.new()
 	npcs.name = "NPCs"
 	add_child(npcs)
-	RoomBuild.add_npc(
+	RoomBuildRef.add_npc(
 		npcs,
 		"LenaQC",
 		Vector3(14.5, 0.0, 11.5),
@@ -49,7 +51,7 @@ func _build_room() -> void:
 			"Good finishing makes the chemistry feel premium.|Bad finishing exposes every earlier compromise.",
 		]
 	)
-	RoomBuild.add_npc(
+	RoomBuildRef.add_npc(
 		npcs,
 		"MarcoShip",
 		Vector3(18.0, 0.0, 11.0),
@@ -67,13 +69,13 @@ func _build_room() -> void:
 	var exits := Node3D.new()
 	exits.name = "Exits"
 	add_child(exits)
-	RoomBuild.add_exit(exits, "ExitWarehouse", Vector3(0.5, 0.75, 7.5), "Warehouse", Vector3(14.5, 0.5, 7.5), "x")
-	RoomBuild.add_exit(exits, "ExitPressHall", Vector3(21.5, 0.75, 7.5), "PressHall", Vector3(21.5, 0.5, 8.5), "x")
+	RoomBuildRef.add_exit(exits, "ExitWarehouse", Vector3(0.5, 0.75, 7.5), "Warehouse", Vector3(14.5, 0.5, 7.5), "x")
+	RoomBuildRef.add_exit(exits, "ExitPressHall", Vector3(21.5, 0.75, 7.5), "PressHall", Vector3(21.5, 0.5, 8.5), "x")
 
 	var tasks := Node3D.new()
 	tasks.name = "Tasks"
 	add_child(tasks)
-	RoomBuild.add_task(tasks, "TaskQC", Vector3(15.5, 0.75, 10.5), "finish_qc", "Finishing QC", "Review trim, fold memory, and coating consistency before approving the batch.")
+	RoomBuildRef.add_task(tasks, "TaskQC", Vector3(15.5, 0.75, 10.5), "finish_qc", "Finishing QC", "Review trim, fold memory, and coating consistency before approving the batch.")
 
 func _add_machine(parent: Node3D, name: String, pos: Vector3, color: Color) -> void:
 	var body := StaticBody3D.new()

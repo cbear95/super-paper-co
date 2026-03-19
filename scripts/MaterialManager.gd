@@ -89,6 +89,8 @@ func _on_node_added(node: Node) -> void:
 func _apply_material(mi: MeshInstance3D) -> void:
 	if not is_instance_valid(mi):
 		return
+	if mi.mesh == null or mi.mesh.get_surface_count() <= 0:
+		return
 	# Skip if already has a material override
 	if mi.get_surface_override_material(0) != null:
 		return
