@@ -68,7 +68,9 @@ func _resolve_color(mi: MeshInstance3D) -> Color:
 
 	var pname: String = parent.name
 	var gp: Node = parent.get_parent()
-	var gp_name: String = gp.name if gp else ""
+	var gp_name: String = ""
+	if gp != null:
+		gp_name = gp.name
 
 	# ── Player ──
 	if pname == "Player" or parent.is_in_group("player"):

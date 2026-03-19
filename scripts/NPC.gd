@@ -10,8 +10,6 @@ extends StaticBody3D
 @export var boss_chance  : float        = 0.75
 @export var dial_sets    : Array[String]= []
 
-@onready var _hint: Label3D = $Hint
-
 func _ready() -> void:
 	add_to_group("npc")
 

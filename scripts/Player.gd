@@ -38,13 +38,14 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if _moving:
-		var diff: Vector3 = _target - global_position
-		if diff.length() < move_speed * delta * 1.2:
+		# Use move_toward instead of move_and_slide so the physics engine's
+		# floor-snap cannot shift global_position.y away from _target.y,
+		# which would create a persistent Y delta that prevents convergence.
+		global_position = global_position.move_toward(_target, move_speed * delta)
+		if global_position.is_equal_approx(_target):
 			global_position = _target
-			_moving = false
-		else:
-			velocity = diff.normalized() * move_speed
-			move_and_slide()
+			velocity        = Vector3.ZERO
+			_moving         = false
 	else:
 		_read_input()
 
