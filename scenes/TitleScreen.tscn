@@ -6,7 +6,25 @@
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_ts")
 
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = false
+bus = &"Master"
+
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="SuperShadow" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -232.0
+offset_right = 8.0
+offset_bottom = -197.0
+text = "S U P E R"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.24, 0.04, 0.22, 0.95)
 
 [node name="SuperLabel" type="Label" parent="UI"]
 anchors_preset = 15
@@ -18,7 +36,21 @@ text = "S U P E R"
 horizontal_alignment = 1
 vertical_alignment = 1
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.314, 0.784, 1.0, 0.82)
+theme_override_colors/font_color = Color(0.28, 0.86, 1.0, 0.92)
+
+[node name="TitleShadow" type="Label" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -161.0
+offset_right = 12.0
+offset_bottom = -51.0
+text = "Paper Co."
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 82
+theme_override_colors/font_color = Color(0.10, 0.02, 0.16, 0.95)
 
 [node name="TitleLabel" type="Label" parent="UI"]
 anchors_preset = 15
@@ -30,7 +62,7 @@ text = "Paper Co."
 horizontal_alignment = 1
 vertical_alignment = 1
 theme_override_font_sizes/font_size = 82
-theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+theme_override_colors/font_color = Color(0.92, 0.98, 1.0, 1.0)
 
 [node name="SubLabel" type="Label" parent="UI"]
 anchors_preset = 15
@@ -42,7 +74,7 @@ text = "A Day in the Life of an R&D Chemist"
 horizontal_alignment = 1
 vertical_alignment = 1
 theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.39, 0.62, 0.78, 0.85)
+theme_override_colors/font_color = Color(0.46, 0.74, 0.92, 0.92)
 
 [node name="StartLabel" type="Label" parent="UI"]
 anchors_preset = 15
@@ -54,7 +86,7 @@ text = "[ PRESS ENTER OR SPACE TO START ]"
 horizontal_alignment = 1
 vertical_alignment = 1
 theme_override_font_sizes/font_size = 17
-theme_override_colors/font_color = Color(0.0, 0.86, 1.0, 0.95)
+theme_override_colors/font_color = Color(1.0, 0.20, 0.78, 0.95)
 
 [node name="VersionLabel" type="Label" parent="UI"]
 anchors_preset = 12
@@ -66,4 +98,4 @@ offset_bottom = -6.0
 text = "v0.1 PROTOTYPE  |  HANDLE WITH CARE"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 11
-theme_override_colors/font_color = Color(0.16, 0.31, 0.47, 0.65)
+theme_override_colors/font_color = Color(0.28, 0.58, 0.78, 0.78)

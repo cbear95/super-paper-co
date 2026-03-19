@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://presshall"]
+
+[ext_resource type="Script" path="res://scripts/PressHallRoom.gd" id="1_presshall"]
+
+[node name="PressHall" type="Node3D"]
+script = ExtResource("1_presshall")

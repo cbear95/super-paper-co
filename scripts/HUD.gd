@@ -17,6 +17,7 @@ var _task_t: float = 0.0
 func _ready() -> void:
 	GameManager.stats_changed.connect(_refresh)
 	GameManager.task_completed.connect(_task_done)
+	GameManager.pickup_collected.connect(_pickup_found)
 	RoomManager.room_changed.connect(_on_room)
 	_task_pop.visible  = false
 	_hurt_ov.color     = Color(1.0, 0.0, 0.1, 0.0)
@@ -65,6 +66,11 @@ func _task_done(_task_id: String) -> void:
 	_task_lbl.text    = "\u2713  " + _task_id.replace("_", " ").capitalize()
 	_task_pop.visible = true
 	_task_t           = 4.0
+
+func _pickup_found(item_name: String) -> void:
+	_task_lbl.text = "+ " + item_name
+	_task_pop.visible = true
+	_task_t = 2.5
 
 func _on_room(room_name: String) -> void:
 	_room_lbl.text = room_name

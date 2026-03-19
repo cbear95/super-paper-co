@@ -535,17 +535,6 @@ mesh = SubResource("WM16")
 shape = SubResource("WS16")
 
 
-[node name="W17" type="StaticBody3D" parent="Walls"]
-collision_layer = 4
-position = Vector3(8.5, 1.1, 9.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="Walls/W17"]
-mesh = SubResource("WM17")
-
-[node name="Shape" type="CollisionShape3D" parent="Walls/W17"]
-shape = SubResource("WS17")
-
-
 [node name="W18" type="StaticBody3D" parent="Walls"]
 collision_layer = 4
 position = Vector3(9.5, 1.1, 0.5)
@@ -766,17 +755,6 @@ mesh = SubResource("WM37")
 shape = SubResource("WS37")
 
 
-[node name="W38" type="StaticBody3D" parent="Walls"]
-collision_layer = 4
-position = Vector3(0.5, 1.1, 4.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="Walls/W38"]
-mesh = SubResource("WM38")
-
-[node name="Shape" type="CollisionShape3D" parent="Walls/W38"]
-shape = SubResource("WS38")
-
-
 [node name="W39" type="StaticBody3D" parent="Walls"]
 collision_layer = 4
 position = Vector3(15.5, 1.1, 4.5)
@@ -797,17 +775,6 @@ mesh = SubResource("WM40")
 
 [node name="Shape" type="CollisionShape3D" parent="Walls/W40"]
 shape = SubResource("WS40")
-
-
-[node name="W41" type="StaticBody3D" parent="Walls"]
-collision_layer = 4
-position = Vector3(15.5, 1.1, 5.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="Walls/W41"]
-mesh = SubResource("WM41")
-
-[node name="Shape" type="CollisionShape3D" parent="Walls/W41"]
-shape = SubResource("WS41")
 
 
 [node name="W42" type="StaticBody3D" parent="Walls"]
@@ -924,7 +891,8 @@ modulate = Color(1.0, 0.94, 0.3, 1.0)
 script = ExtResource("exit_s")
 position = Vector3(0.5, 0.75, 4.5)
 dest_room = "Lab"
-spawn_pos = Vector3(14.0, 0.5, 6.0)
+spawn_pos = Vector3(13.5, 0.5, 6.5)
+door_axis = "x"
 
 [node name="Shape" type="CollisionShape3D" parent="Exits/ExitLab"]
 shape = SubResource("ES0")
@@ -934,7 +902,8 @@ shape = SubResource("ES0")
 script = ExtResource("exit_s")
 position = Vector3(15.5, 0.75, 5.5)
 dest_room = "BossOffice"
-spawn_pos = Vector3(1.0, 0.5, 4.0)
+spawn_pos = Vector3(2.5, 0.5, 4.5)
+door_axis = "x"
 
 [node name="Shape" type="CollisionShape3D" parent="Exits/ExitBoss"]
 shape = SubResource("ES1")
@@ -944,7 +913,8 @@ shape = SubResource("ES1")
 script = ExtResource("exit_s")
 position = Vector3(8.5, 0.75, 9.5)
 dest_room = "PrintRoom"
-spawn_pos = Vector3(4.0, 0.5, 1.0)
+spawn_pos = Vector3(8.5, 0.5, 7.5)
+door_axis = "z"
 
 [node name="Shape" type="CollisionShape3D" parent="Exits/ExitPrint"]
 shape = SubResource("ES2")

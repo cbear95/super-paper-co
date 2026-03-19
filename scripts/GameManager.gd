@@ -3,10 +3,13 @@ extends Node
 signal stats_changed
 signal player_died
 signal task_completed(task_id: String)
+signal menu_toggled(is_open: bool)
+signal pickup_collected(item_name: String)
 
 const MAX_HP     : int   = 3
 const MAX_STRESS : float = 100.0
 const MAX_XP     : int   = 999
+const SAVE_PATH  : String = "user://savegame.json"
 
 var hp     : int   = 3
 var stress : float = 0.0
@@ -16,6 +19,8 @@ var mental : float = 100.0
 var current_room   : String         = "Lab"
 var completed_tasks: Array[String]  = []
 var npc_dial_idx   : Dictionary     = {}
+var menu_open      : bool           = false
+var collected_pickups: Array[String] = []
 
 var _stress_tick: float = 0.0
 var _poison_tick: float = 0.0
@@ -41,9 +46,17 @@ func reset_stats() -> void:
 	stress = 0.0
 	xp = 0
 	mental = 100.0
+	menu_open = false
 	completed_tasks.clear()
 	npc_dial_idx.clear()
+	collected_pickups.clear()
 	stats_changed.emit()
+
+func set_menu_open(open: bool) -> void:
+	if menu_open == open:
+		return
+	menu_open = open
+	menu_toggled.emit(menu_open)
 
 func hurt(amount: int, _src: String = "") -> void:
 	hp = maxi(0, hp - amount)
@@ -91,3 +104,69 @@ func next_dial_idx(npc_id: String, max_sets: int) -> int:
 	var i: int = npc_dial_idx[npc_id]
 	npc_dial_idx[npc_id] = (i + 1) % max_sets
 	return i
+
+func has_collected_pickup(pickup_id: String) -> bool:
+	return pickup_id in collected_pickups
+
+func register_pickup(pickup_id: String, item_name: String) -> bool:
+	if has_collected_pickup(pickup_id):
+		return false
+	collected_pickups.append(pickup_id)
+	pickup_collected.emit(item_name)
+	return true
+
+func save_game() -> bool:
+	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if file == null:
+		push_error("Could not open save file: " + SAVE_PATH)
+		return false
+	var payload: Dictionary = {
+		"hp": hp,
+		"stress": stress,
+		"xp": xp,
+		"mental": mental,
+		"current_room": RoomManager.current_room,
+		"spawn_position": {
+			"x": RoomManager.spawn_position.x,
+			"y": RoomManager.spawn_position.y,
+			"z": RoomManager.spawn_position.z,
+		},
+		"completed_tasks": completed_tasks,
+		"npc_dial_idx": npc_dial_idx,
+		"collected_pickups": collected_pickups,
+	}
+	file.store_string(JSON.stringify(payload))
+	return true
+
+func load_game() -> bool:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return false
+	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if file == null:
+		push_error("Could not read save file: " + SAVE_PATH)
+		return false
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if not (parsed is Dictionary):
+		push_error("Invalid save data in: " + SAVE_PATH)
+		return false
+
+	var data: Dictionary = parsed
+	hp = int(data.get("hp", MAX_HP))
+	stress = float(data.get("stress", 0.0))
+	xp = int(data.get("xp", 0))
+	mental = float(data.get("mental", 100.0))
+	current_room = String(data.get("current_room", "Lab"))
+	completed_tasks = Array(data.get("completed_tasks", []))
+	npc_dial_idx = Dictionary(data.get("npc_dial_idx", {}))
+	collected_pickups = Array(data.get("collected_pickups", []))
+
+	var spawn_data: Dictionary = Dictionary(data.get("spawn_position", {}))
+	RoomManager.current_room = current_room
+	RoomManager.spawn_position = Vector3(
+		float(spawn_data.get("x", 5.0)),
+		float(spawn_data.get("y", 0.5)),
+		float(spawn_data.get("z", 5.0))
+	)
+
+	stats_changed.emit()
+	return true

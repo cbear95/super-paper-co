@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://finishingwing"]
+
+[ext_resource type="Script" path="res://scripts/FinishingWingRoom.gd" id="1_finishing"]
+
+[node name="FinishingWing" type="Node3D"]
+script = ExtResource("1_finishing")

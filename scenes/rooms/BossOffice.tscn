@@ -716,17 +716,6 @@ mesh = SubResource("WM33")
 shape = SubResource("WS33")
 
 
-[node name="W34" type="StaticBody3D" parent="Walls"]
-collision_layer = 4
-position = Vector3(0.5, 1.1, 4.5)
-
-[node name="Mesh" type="MeshInstance3D" parent="Walls/W34"]
-mesh = SubResource("WM34")
-
-[node name="Shape" type="CollisionShape3D" parent="Walls/W34"]
-shape = SubResource("WS34")
-
-
 [node name="W35" type="StaticBody3D" parent="Walls"]
 collision_layer = 4
 position = Vector3(13.5, 1.1, 4.5)
@@ -929,7 +918,8 @@ modulate = Color(1.0, 0.94, 0.3, 1.0)
 script = ExtResource("exit_s")
 position = Vector3(0.5, 0.75, 4.5)
 dest_room = "Hallway"
-spawn_pos = Vector3(14.0, 0.5, 5.0)
+spawn_pos = Vector3(13.5, 0.5, 5.5)
+door_axis = "x"
 
 [node name="Shape" type="CollisionShape3D" parent="Exits/ExitHallway"]
 shape = SubResource("ES0")

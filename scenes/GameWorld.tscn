@@ -8,25 +8,25 @@
 [ext_resource type="Script" path="res://scripts/Portrait.gd"    id="6_pt"]
 
 [sub_resource type="CapsuleMesh" id="PlayerMesh"]
-radius = 0.28
-height = 1.6
+radius = 0.24
+height = 1.35
 
 [sub_resource type="CapsuleShape3D" id="PlayerShape"]
-radius = 0.28
-height = 1.6
+radius = 0.22
+height = 1.2
 
 [sub_resource type="SphereShape3D" id="InteractSphere"]
 radius = 1.2
 
 [sub_resource type="Environment" id="WorldEnv"]
 background_mode = 1
-background_color = Color(0.06, 0.07, 0.10, 1)
-ambient_light_color = Color(0.55, 0.60, 0.72, 1)
-ambient_light_energy = 0.55
+background_color = Color(0.11, 0.15, 0.18, 1)
+ambient_light_color = Color(0.67, 0.71, 0.78, 1)
+ambient_light_energy = 0.62
 glow_enabled = true
-glow_bloom = 0.08
+glow_bloom = 0.07
 glow_blend_mode = 2
-ssao_enabled = true
+ssao_enabled = false
 
 
 [node name="GameWorld" type="Node3D"]
@@ -37,7 +37,8 @@ environment = SubResource("WorldEnv")
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-52.0, 42.0, 0.0)
-light_energy = 0.85
+light_color = Color(1, 0.955, 0.82, 1)
+light_energy = 1.08
 shadow_enabled = true
 
 [node name="RoomContainer" type="Node3D" parent="."]
@@ -46,10 +47,11 @@ shadow_enabled = true
 script = ExtResource("2_pl")
 position = Vector3(5.0, 0.5, 5.0)
 collision_layer = 1
-collision_mask = 6
+collision_mask = 4
 
 [node name="Mesh" type="MeshInstance3D" parent="Player"]
 mesh = SubResource("PlayerMesh")
+position = Vector3(0, 0.82, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("PlayerShape")
@@ -69,6 +71,10 @@ rotation_degrees = Vector3(-30.0, 45.0, 0.0)
 projection = 1
 size = 13.0
 far = 200.0
+
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = false
+bus = &"Master"
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("4_hud")
@@ -178,6 +184,63 @@ offset_top = -120.0
 offset_right = 178.0
 offset_bottom = -78.0
 visible = false
+
+[node name="InventoryPanel" type="PanelContainer" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.0
+offset_top = -128.0
+offset_right = 196.0
+offset_bottom = 128.0
+visible = false
+
+[node name="Margin" type="MarginContainer" parent="HUD/InventoryPanel"]
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="HUD/InventoryPanel/Margin"]
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "Inventory"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.42, 0.92, 1.0, 1.0)
+
+[node name="RoomLabel" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "Current Room"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.54, 0.74, 0.90, 0.9)
+
+[node name="RoomValue" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "Lab"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.92, 0.98, 1.0, 1.0)
+
+[node name="StatsLabel" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "Status"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.54, 0.74, 0.90, 0.9)
+
+[node name="StatsValue" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "HP 3/3"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.92, 0.98, 1.0, 1.0)
+
+[node name="SaveLabel" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "Save"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.54, 0.74, 0.90, 0.9)
+
+[node name="SaveValue" type="Label" parent="HUD/InventoryPanel/Margin/VBox"]
+text = "Q autosaves."
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.88, 0.96, 1.0, 0.95)
 
 [node name="M" type="MarginContainer" parent="HUD/TaskPop"]
 theme_override_constants/margin_left = 12

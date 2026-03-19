@@ -8,6 +8,8 @@ const ROOM_SCENES: Dictionary = {
 	"BossOffice": "res://scenes/rooms/BossOffice.tscn",
 	"Warehouse":  "res://scenes/rooms/Warehouse.tscn",
 	"PrintRoom":  "res://scenes/rooms/PrintRoom.tscn",
+	"PressHall":  "res://scenes/rooms/PressHall.tscn",
+	"FinishingWing": "res://scenes/rooms/FinishingWing.tscn",
 }
 
 var current_room  : String  = "Lab"
