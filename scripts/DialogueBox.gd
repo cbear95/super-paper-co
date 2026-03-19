@@ -22,6 +22,17 @@ var _ptype  : String   = "default"
 func _ready() -> void:
 	DialogueManager.register_box(self)
 	_panel.visible = false
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.07, 0.08, 0.12, 0.94)
+	panel_style.border_color = Color(0.30, 0.54, 0.78, 0.88)
+	panel_style.set_border_width_all(3)
+	panel_style.corner_radius_top_left = 10
+	panel_style.corner_radius_top_right = 10
+	panel_style.corner_radius_bottom_left = 10
+	panel_style.corner_radius_bottom_right = 10
+	panel_style.shadow_size = 12
+	panel_style.shadow_color = Color(0.0, 0.0, 0.0, 0.28)
+	_panel.add_theme_stylebox_override("panel", panel_style)
 
 func begin(nn: String, nr: String, pt: String, col: Color,
 		lines: Array, on_fin: Callable) -> void:
@@ -35,11 +46,15 @@ func begin(nn: String, nr: String, pt: String, col: Color,
 	_nname.text = nn
 	_nname.add_theme_color_override("font_color", col)
 	_nrole.text = nr
+	_nrole.add_theme_color_override("font_color", Color(0.94, 0.88, 0.72, 0.92))
 	_portrait.set("portrait_type", pt)
 	_portrait.set("tint", col)
 	_portrait.queue_redraw()
 	_panel.visible = true
 	_txt.text      = ""
+	_txt.bbcode_enabled = true
+	_txt.fit_content = true
+	_txt.add_theme_font_size_override("normal_font_size", 22)
 	_cont.visible  = false
 	_rebuild_dots()
 
@@ -53,7 +68,7 @@ func _process(delta: float) -> void:
 		while _ctimer >= spd and _cidx < line.length():
 			_cidx   += 1
 			_ctimer -= spd
-		_txt.text     = line.substr(0, _cidx)
+		_txt.text     = "[center]%s[/center]" % line.substr(0, _cidx)
 		_cont.visible = false
 	else:
 		_cont.visible = true
@@ -71,7 +86,7 @@ func _advance() -> void:
 	var line: String = _lines[_lidx]
 	if _cidx < line.length():
 		_cidx     = line.length()
-		_txt.text = line
+		_txt.text = "[center]%s[/center]" % line
 		return
 	_lidx += 1
 	if _lidx >= _lines.size():
@@ -94,6 +109,6 @@ func _rebuild_dots() -> void:
 		c.queue_free()
 	for i: int in range(_lines.size()):
 		var d: ColorRect = ColorRect.new()
-		d.custom_minimum_size = Vector2(8.0, 8.0)
+		d.custom_minimum_size = Vector2(18.0 if i == _lidx else 10.0, 8.0)
 		d.color = _color if i == _lidx else Color(0.2, 0.28, 0.38, 0.6)
 		_dots.add_child(d)

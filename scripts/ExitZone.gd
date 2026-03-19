@@ -7,8 +7,7 @@ extends Area3D
 
 var _portal_core: MeshInstance3D = null
 var _portal_rune: MeshInstance3D = null
-var _door_leaf_left: MeshInstance3D = null
-var _door_leaf_right: MeshInstance3D = null
+var _hall_shadow: MeshInstance3D = null
 var _streamers: Array[Node3D] = []
 
 func _ready() -> void:
@@ -30,10 +29,8 @@ func _process(delta: float) -> void:
 	_portal_core.scale.x = lerpf(0.98, 1.02, pulse)
 	_portal_core.scale.z = lerpf(0.98, 1.02, pulse)
 	_portal_rune.rotation.y += delta * 0.24
-	if _door_leaf_left:
-		_door_leaf_left.position.y = 0.40 + sin(t * 1.4) * 0.01
-	if _door_leaf_right:
-		_door_leaf_right.position.y = 0.40 + cos(t * 1.4) * 0.01
+	if _hall_shadow:
+		_hall_shadow.scale.z = lerpf(0.94, 1.04, pulse)
 	for i: int in range(_streamers.size()):
 		var streamer := _streamers[i]
 		var sway: float = sin(t * (1.6 + float(i) * 0.22) + float(i)) * 0.22
@@ -56,50 +53,49 @@ func _configure_trigger_shape() -> void:
 			box.size = Vector3(2.2, 1.8, 1.8)
 
 func _build_door_visual() -> void:
-	# Replace the abstract portal slab with a readable arch + double-door silhouette.
-	var depth: float = 0.24
-	var span: float = 1.02
+	var depth: float = 0.34
+	var span: float = 1.14
 	var frame_mat := _make_stone_material()
-	var door_mat := _make_door_material()
 	var glow_mat := _make_portal_material()
 	var accent_mat := _make_accent_material()
-	var lantern_mat := _make_lantern_material()
+	var lantern_mat := _make_guide_material()
 	var cloth_mat := _make_streamer_material(1)
 	_streamers.clear()
 
 	if door_axis == "x":
-		_add_box("LeftPost", Vector3(depth, 2.0, 0.20), Vector3(0.0, 0.46, -0.48), frame_mat)
-		_add_box("RightPost", Vector3(depth, 2.0, 0.20), Vector3(0.0, 0.46, 0.48), frame_mat)
-		_add_box("Lintel", Vector3(depth, 0.22, span * 1.06), Vector3(0.0, 1.42, 0.0), frame_mat)
-		_add_box("Crown", Vector3(depth * 0.9, 0.14, span * 0.72), Vector3(0.0, 1.56, 0.0), accent_mat)
-		_add_box("Threshold", Vector3(depth * 0.8, 0.10, span * 0.86), Vector3(0.0, -0.02, 0.0), accent_mat)
-		_door_leaf_left = _add_box("DoorLeafLeft", Vector3(depth * 0.42, 1.48, 0.34), Vector3(0.0, 0.40, -0.19), door_mat)
-		_door_leaf_right = _add_box("DoorLeafRight", Vector3(depth * 0.42, 1.48, 0.34), Vector3(0.0, 0.40, 0.19), door_mat)
-		_add_box("LanternNorth", Vector3(depth * 0.5, 0.22, 0.16), Vector3(0.0, 0.92, -0.64), lantern_mat)
-		_add_box("LanternSouth", Vector3(depth * 0.5, 0.22, 0.16), Vector3(0.0, 0.92, 0.64), lantern_mat)
-		_add_box("ClothTop", Vector3(depth * 0.64, 0.12, 0.90), Vector3(0.0, 1.18, 0.0), cloth_mat)
-		_portal_core = _add_box("PortalCore", Vector3(depth * 0.2, 1.18, 0.04), Vector3(0.0, 0.42, 0.0), glow_mat)
-		_portal_rune = _add_diamond("PortalRune", Vector3(depth * 0.26, 0.22, 0.18), Vector3(0.0, 0.54, 0.0), glow_mat)
+		_add_box("LeftPost", Vector3(depth, 2.1, 0.24), Vector3(0.0, 0.48, -0.62), frame_mat)
+		_add_box("RightPost", Vector3(depth, 2.1, 0.24), Vector3(0.0, 0.48, 0.62), frame_mat)
+		_add_box("Lintel", Vector3(depth, 0.24, span * 1.24), Vector3(0.0, 1.48, 0.0), frame_mat)
+		_add_box("Crown", Vector3(depth * 0.9, 0.16, span * 0.88), Vector3(0.0, 1.66, 0.0), accent_mat)
+		_add_box("Runner", Vector3(depth * 0.7, 0.06, 1.16), Vector3(0.0, 0.01, 0.0), accent_mat)
+		_add_box("HallSideNorth", Vector3(depth * 0.8, 1.20, 0.18), Vector3(0.0, 0.30, -0.86), frame_mat)
+		_add_box("HallSideSouth", Vector3(depth * 0.8, 1.20, 0.18), Vector3(0.0, 0.30, 0.86), frame_mat)
+		_add_box("GuideNorth", Vector3(depth * 0.44, 0.16, 0.12), Vector3(0.0, 0.86, -0.92), lantern_mat)
+		_add_box("GuideSouth", Vector3(depth * 0.44, 0.16, 0.12), Vector3(0.0, 0.86, 0.92), lantern_mat)
+		_add_box("ClothTop", Vector3(depth * 0.64, 0.12, 1.02), Vector3(0.0, 1.20, 0.0), cloth_mat)
+		_hall_shadow = _add_box("HallShadow", Vector3(depth * 0.16, 1.30, 0.96), Vector3(0.0, 0.44, 0.0), _make_hall_shadow_material())
+		_portal_core = _add_box("PortalCore", Vector3(depth * 0.1, 0.90, 0.04), Vector3(0.0, 0.42, 0.0), glow_mat)
+		_portal_rune = _add_diamond("PortalRune", Vector3(depth * 0.18, 0.18, 0.14), Vector3(0.0, 0.54, 0.0), glow_mat)
 	else:
-		_add_box("LeftPost", Vector3(0.20, 2.0, depth), Vector3(-0.48, 0.46, 0.0), frame_mat)
-		_add_box("RightPost", Vector3(0.20, 2.0, depth), Vector3(0.48, 0.46, 0.0), frame_mat)
-		_add_box("Lintel", Vector3(span * 1.06, 0.22, depth), Vector3(0.0, 1.42, 0.0), frame_mat)
-		_add_box("Crown", Vector3(span * 0.72, 0.14, depth * 0.9), Vector3(0.0, 1.56, 0.0), accent_mat)
-		_add_box("Threshold", Vector3(span * 0.86, 0.10, depth * 0.8), Vector3(0.0, -0.02, 0.0), accent_mat)
-		_door_leaf_left = _add_box("DoorLeafLeft", Vector3(0.34, 1.48, depth * 0.42), Vector3(-0.19, 0.40, 0.0), door_mat)
-		_door_leaf_right = _add_box("DoorLeafRight", Vector3(0.34, 1.48, depth * 0.42), Vector3(0.19, 0.40, 0.0), door_mat)
-		_add_box("LanternWest", Vector3(0.16, 0.22, depth * 0.5), Vector3(-0.64, 0.92, 0.0), lantern_mat)
-		_add_box("LanternEast", Vector3(0.16, 0.22, depth * 0.5), Vector3(0.64, 0.92, 0.0), lantern_mat)
-		_add_box("ClothTop", Vector3(0.90, 0.12, depth * 0.64), Vector3(0.0, 1.18, 0.0), cloth_mat)
-		_portal_core = _add_box("PortalCore", Vector3(0.04, 1.18, depth * 0.2), Vector3(0.0, 0.42, 0.0), glow_mat)
-		_portal_rune = _add_diamond("PortalRune", Vector3(0.18, 0.22, depth * 0.26), Vector3(0.0, 0.54, 0.0), glow_mat)
+		_add_box("LeftPost", Vector3(0.24, 2.1, depth), Vector3(-0.62, 0.48, 0.0), frame_mat)
+		_add_box("RightPost", Vector3(0.24, 2.1, depth), Vector3(0.62, 0.48, 0.0), frame_mat)
+		_add_box("Lintel", Vector3(span * 1.24, 0.24, depth), Vector3(0.0, 1.48, 0.0), frame_mat)
+		_add_box("Crown", Vector3(span * 0.88, 0.16, depth * 0.9), Vector3(0.0, 1.66, 0.0), accent_mat)
+		_add_box("Runner", Vector3(1.16, 0.06, depth * 0.7), Vector3(0.0, 0.01, 0.0), accent_mat)
+		_add_box("HallSideWest", Vector3(0.18, 1.20, depth * 0.8), Vector3(-0.86, 0.30, 0.0), frame_mat)
+		_add_box("HallSideEast", Vector3(0.18, 1.20, depth * 0.8), Vector3(0.86, 0.30, 0.0), frame_mat)
+		_add_box("GuideWest", Vector3(0.12, 0.16, depth * 0.44), Vector3(-0.92, 0.86, 0.0), lantern_mat)
+		_add_box("GuideEast", Vector3(0.12, 0.16, depth * 0.44), Vector3(0.92, 0.86, 0.0), lantern_mat)
+		_add_box("ClothTop", Vector3(1.02, 0.12, depth * 0.64), Vector3(0.0, 1.20, 0.0), cloth_mat)
+		_hall_shadow = _add_box("HallShadow", Vector3(0.96, 1.30, depth * 0.16), Vector3(0.0, 0.44, 0.0), _make_hall_shadow_material())
+		_portal_core = _add_box("PortalCore", Vector3(0.04, 0.90, depth * 0.1), Vector3(0.0, 0.42, 0.0), glow_mat)
+		_portal_rune = _add_diamond("PortalRune", Vector3(0.14, 0.18, depth * 0.18), Vector3(0.0, 0.54, 0.0), glow_mat)
 
-	# Small room-label above the portal.
 	var lbl := Label3D.new()
 	lbl.text      = dest_room
-	lbl.font_size = 32
-	lbl.modulate  = Color(0.96, 0.92, 0.72, 0.92)
-	lbl.position  = Vector3(0.0, 1.72, 0.0)
+	lbl.font_size = 28
+	lbl.modulate  = Color(0.94, 0.90, 0.76, 0.80)
+	lbl.position  = Vector3(0.0, 1.86, 0.0)
 	lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	add_child(lbl)
 	_add_streamers()
@@ -159,15 +155,13 @@ func _make_stone_material() -> StandardMaterial3D:
 	mat.emission_energy_multiplier = 0.14
 	return mat
 
-func _make_door_material() -> StandardMaterial3D:
+func _make_hall_shadow_material() -> StandardMaterial3D:
 	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.52, 0.40, 0.23, 1.0)
-	mat.roughness = 0.88
+	mat.albedo_color = Color(0.12, 0.14, 0.16, 0.42)
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.roughness = 0.96
 	mat.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
 	mat.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
-	mat.emission_enabled = true
-	mat.emission = Color(0.10, 0.06, 0.02)
-	mat.emission_energy_multiplier = 0.20
 	return mat
 
 func _make_accent_material() -> StandardMaterial3D:
@@ -193,15 +187,15 @@ func _make_portal_material() -> StandardMaterial3D:
 	mat.emission_energy_multiplier = 1.6
 	return mat
 
-func _make_lantern_material() -> StandardMaterial3D:
+func _make_guide_material() -> StandardMaterial3D:
 	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.96, 0.84, 0.44, 1.0)
+	mat.albedo_color = Color(0.86, 0.82, 0.62, 1.0)
 	mat.roughness = 0.70
 	mat.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
 	mat.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
 	mat.emission_enabled = true
-	mat.emission = Color(0.28, 0.22, 0.10)
-	mat.emission_energy_multiplier = 0.62
+	mat.emission = Color(0.12, 0.14, 0.10)
+	mat.emission_energy_multiplier = 0.26
 	return mat
 
 func _add_streamers() -> void:

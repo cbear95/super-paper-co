@@ -2,17 +2,21 @@ class_name RoomDress
 extends RefCounted
 
 static var _pickup_script: Script = preload("res://scripts/PickupItem.gd")
+static var _outline_shader: Shader = preload("res://shaders/outline_next_pass.gdshader")
 
-static func apply_to_room(room: Node3D) -> void:
+static func apply_to_room(room: Node3D, room_name: String = "") -> void:
 	if room == null:
 		return
-	match RoomManager.current_room:
+	var target_room := room_name if not room_name.is_empty() else RoomManager.current_room
+	match target_room:
 		"Lab":
 			_dress_lab(room)
 		"Warehouse":
 			_dress_warehouse(room)
 		"PrintRoom":
 			_dress_print_room(room)
+		"Hallway":
+			_dress_hallway(room)
 
 static func _dress_lab(room: Node3D) -> void:
 	var objects: Node3D = room.get_node_or_null("Objects")
@@ -64,6 +68,47 @@ static func _dress_print_room(room: Node3D) -> void:
 	var pickups := _ensure_child(room, "Pickups")
 	_add_pickup(pickups, "print_solvent", "Cleaning Solvent", "solvent", 8, Vector3(5.4, 0.74, 3.1))
 	_add_pickup(pickups, "print_docs", "Marked Proof Sheets", "document", 16, Vector3(10.5, 0.82, 3.1))
+
+static func _dress_hallway(room: Node3D) -> void:
+	var decor := _ensure_child(room, "Decor")
+	_add_arch(decor, "HallArchA", Vector3(4.5, 0.0, 5.5), 2.4)
+	_add_arch(decor, "HallArchB", Vector3(12.5, 0.0, 5.5), 2.4)
+
+static func _add_domain_backdrop(room: Node3D, room_name: String) -> void:
+	var backdrop := _ensure_child(room, "Backdrop")
+	match room_name:
+		"Lab":
+			_add_hill_layer(backdrop, Vector3(8.0, 2.0, -4.5), Vector2(30.0, 8.0), Color(0.54, 0.72, 0.50, 1.0), -8.0)
+			_add_hill_layer(backdrop, Vector3(8.0, 2.4, -6.6), Vector2(34.0, 10.0), Color(0.70, 0.80, 0.60, 1.0), -10.0)
+		"Hallway":
+			_add_hill_layer(backdrop, Vector3(8.0, 2.2, -4.2), Vector2(28.0, 8.0), Color(0.62, 0.66, 0.52, 1.0), -10.0)
+		"Warehouse":
+			_add_hill_layer(backdrop, Vector3(8.0, 2.0, -4.2), Vector2(30.0, 7.5), Color(0.58, 0.70, 0.68, 1.0), -10.0)
+			_add_arch(backdrop, "WarehouseArch", Vector3(8.0, 0.0, -2.0), 3.4)
+		"PrintRoom":
+			_add_hill_layer(backdrop, Vector3(8.0, 2.2, -4.5), Vector2(28.0, 7.0), Color(0.74, 0.74, 0.58, 1.0), -12.0)
+			_add_hill_layer(backdrop, Vector3(8.0, 2.8, -7.0), Vector2(36.0, 10.0), Color(0.84, 0.82, 0.62, 1.0), -14.0)
+
+static func _add_hill_layer(parent: Node3D, pos: Vector3, size: Vector2, color: Color, z_offset: float) -> void:
+	var root := Node3D.new()
+	root.position = pos
+	parent.add_child(root)
+
+	var mesh := MeshInstance3D.new()
+	var quad := QuadMesh.new()
+	quad.size = size
+	mesh.mesh = quad
+	mesh.position = Vector3(0.0, 0.0, z_offset)
+	mesh.rotation_degrees = Vector3(0.0, 180.0, 0.0)
+	mesh.set_surface_override_material(0, _mat_translucent(color))
+	root.add_child(mesh)
+
+static func _add_arch(parent: Node3D, name: String, pos: Vector3, width: float) -> void:
+	var body := _body(name, pos + Vector3(0.0, 1.2, 0.0), Vector3(width, 2.4, 0.4))
+	parent.add_child(body)
+	_add_box_mesh(body, "Left", Vector3(0.34, 2.2, 0.36), Vector3(-width * 0.42, 0.0, 0.0), _mat(Color(0.70, 0.64, 0.52, 1.0)))
+	_add_box_mesh(body, "Right", Vector3(0.34, 2.2, 0.36), Vector3(width * 0.42, 0.0, 0.0), _mat(Color(0.70, 0.64, 0.52, 1.0)))
+	_add_box_mesh(body, "Top", Vector3(width * 0.76, 0.24, 0.34), Vector3(0.0, 0.90, 0.0), _mat(Color(0.82, 0.76, 0.62, 1.0)))
 
 static func _mute_placeholders(objects: Node3D) -> void:
 	for child: Node in objects.get_children():
@@ -195,4 +240,18 @@ static func _mat(color: Color) -> StandardMaterial3D:
 	mat.emission_enabled = true
 	mat.emission = Color(color.r * 0.09, color.g * 0.09, color.b * 0.08)
 	mat.emission_energy_multiplier = 0.18
+	mat.next_pass = _outline_mat(color)
 	return mat
+
+static func _mat_translucent(color: Color) -> StandardMaterial3D:
+	var mat := _mat(color)
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color.a = 0.92
+	return mat
+
+static func _outline_mat(color: Color) -> ShaderMaterial:
+	var outline := ShaderMaterial.new()
+	outline.shader = _outline_shader
+	outline.set_shader_parameter("outline_color", Color(color.r * 0.12, color.g * 0.12, color.b * 0.14, 1.0))
+	outline.set_shader_parameter("outline_width", 0.028)
+	return outline

@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+const OUTLINE_SHADER := preload("res://shaders/outline_next_pass.gdshader")
+
 @export var patrol_dist: float = 6.0
 @export var speed      : float = 2.5
 @export var damage     : int   = 1
@@ -84,11 +86,11 @@ func _build_paper_roll(root: Node3D) -> void:
 	var roll := MeshInstance3D.new()
 	roll.name = "Roll"
 	var cyl := CylinderMesh.new()
-	cyl.top_radius = 0.34
-	cyl.bottom_radius = 0.34
-	cyl.height = 0.74
+	cyl.top_radius = 0.86
+	cyl.bottom_radius = 0.86
+	cyl.height = 1.72
 	roll.mesh = cyl
-	roll.position = Vector3(0.0, 0.34, 0.0)
+	roll.position = Vector3(0.0, 0.86, 0.0)
 	roll.rotation_degrees = Vector3(0.0, 0.0, 90.0)
 	roll.set_surface_override_material(0, paper_mat)
 	root.add_child(roll)
@@ -96,11 +98,11 @@ func _build_paper_roll(root: Node3D) -> void:
 	var core := MeshInstance3D.new()
 	core.name = "Core"
 	var core_cyl := CylinderMesh.new()
-	core_cyl.top_radius = 0.10
-	core_cyl.bottom_radius = 0.10
-	core_cyl.height = 0.78
+	core_cyl.top_radius = 0.20
+	core_cyl.bottom_radius = 0.20
+	core_cyl.height = 1.80
 	core.mesh = core_cyl
-	core.position = Vector3(0.0, 0.34, 0.0)
+	core.position = Vector3(0.0, 0.86, 0.0)
 	core.rotation_degrees = Vector3(0.0, 0.0, 90.0)
 	core.set_surface_override_material(0, core_mat)
 	root.add_child(core)
@@ -139,4 +141,12 @@ func _mat(color: Color, emission: Color, transparent: bool = false) -> StandardM
 	mat.emission_enabled = true
 	mat.emission = emission
 	mat.emission_energy_multiplier = 0.18
+	mat.next_pass = _outline_pass(color)
 	return mat
+
+func _outline_pass(color: Color) -> ShaderMaterial:
+	var outline := ShaderMaterial.new()
+	outline.shader = OUTLINE_SHADER
+	outline.set_shader_parameter("outline_color", Color(color.r * 0.12, color.g * 0.12, color.b * 0.14, 1.0))
+	outline.set_shader_parameter("outline_width", 0.030)
+	return outline

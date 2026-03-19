@@ -117,6 +117,7 @@ func _apply_material(mi: MeshInstance3D) -> void:
 	mat.emission_enabled          = true
 	mat.emission                  = _resolve_emission(mi, col)
 	mat.emission_energy_multiplier = _resolve_emission_energy(mi) + 0.05
+	mat.next_pass = _make_outline_pass(col)
 
 	mi.set_surface_override_material(0, mat)
 
@@ -237,3 +238,17 @@ func _tint_for_room(col: Color, family: String) -> Color:
 	var profile: Dictionary = ROOM_TINTS.get(GameManager.current_room, {})
 	var tint: Color = profile.get(family, Color(1.0, 1.0, 1.0, 1.0))
 	return Color(col.r * tint.r, col.g * tint.g, col.b * tint.b, col.a)
+
+func _make_outline_pass(col: Color) -> ShaderMaterial:
+	var outline := ShaderMaterial.new()
+	outline.shader = OUTLINE_SHADER
+	var dark := Color(
+		clampf(col.r * 0.18, 0.0, 1.0),
+		clampf(col.g * 0.18, 0.0, 1.0),
+		clampf(col.b * 0.20, 0.0, 1.0),
+		1.0
+	)
+	outline.set_shader_parameter("outline_color", dark)
+	outline.set_shader_parameter("outline_width", 0.028)
+	return outline
+const OUTLINE_SHADER := preload("res://shaders/outline_next_pass.gdshader")

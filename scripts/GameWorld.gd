@@ -12,6 +12,17 @@ const RoomDressScript = preload("res://scripts/RoomDress.gd")
 @onready var _inventory_room: Label = $HUD/InventoryPanel/Margin/VBox/RoomValue
 @onready var _inventory_stats: Label = $HUD/InventoryPanel/Margin/VBox/StatsValue
 @onready var _inventory_save: Label = $HUD/InventoryPanel/Margin/VBox/SaveValue
+@onready var _inventory_title: Label = $HUD/InventoryPanel/Margin/VBox/Title
+@onready var _inventory_room_label: Label = $HUD/InventoryPanel/Margin/VBox/RoomLabel
+@onready var _inventory_stats_label: Label = $HUD/InventoryPanel/Margin/VBox/StatsLabel
+@onready var _inventory_save_label: Label = $HUD/InventoryPanel/Margin/VBox/SaveLabel
+
+var _input_latch: Dictionary = {
+	"inventory": false,
+	"save": false,
+	"load": false,
+}
+var _inventory_grid: RichTextLabel = null
 
 const ROOM_LOOKS: Dictionary = {
 	"Lab": {
@@ -101,24 +112,29 @@ func _ready() -> void:
 	var cam_node: Camera3D = _cam
 	cam_node.set("target", _player)
 	GameManager.menu_toggled.connect(_on_menu_toggled)
+	_build_inventory_layout()
 	_refresh_inventory_panel()
 	_on_menu_toggled(GameManager.menu_open)
+
+func _process(_delta: float) -> void:
+	_handle_global_input()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_inventory"):
 		_toggle_inventory()
 		get_viewport().set_input_as_handled()
 		return
-
-func _unhandled_input(event: InputEvent) -> void:
 	if GameManager.menu_open:
 		return
 	if event.is_action_pressed("save_game"):
+		_cache_spawn_position()
 		if GameManager.save_game():
 			print("Game saved to ", GameManager.SAVE_PATH)
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("load_game"):
 		if GameManager.load_game():
 			get_tree().change_scene_to_file("res://scenes/GameWorld.tscn")
+		get_viewport().set_input_as_handled()
 
 func _load_room() -> void:
 	for c: Node in _container.get_children():
@@ -133,7 +149,7 @@ func _load_room() -> void:
 		return
 	var room: Node3D = packed.instantiate()
 	_container.add_child(room)
-	RoomDressScript.apply_to_room(room)
+	RoomDressScript.apply_to_room(room, RoomManager.current_room)
 
 func _apply_room_look() -> void:
 	if _env == null or _env.environment == null or _sun == null:
@@ -151,10 +167,18 @@ func _apply_room_look() -> void:
 	_sun.light_color = look["sun"]
 	_sun.light_energy = look["sun_energy"]
 
+func _handle_global_input() -> void:
+	if GameManager.menu_open:
+		return
+
+func _cache_spawn_position() -> void:
+	RoomManager.spawn_position = _player.global_position
+
 func _toggle_inventory() -> void:
 	var next_open: bool = not GameManager.menu_open
 	GameManager.set_menu_open(next_open)
 	if next_open:
+		_cache_spawn_position()
 		var saved: bool = GameManager.save_game()
 		print("Inventory opened. Save ", "ok" if saved else "failed")
 	_refresh_inventory_panel()
@@ -165,17 +189,79 @@ func _on_menu_toggled(is_open: bool) -> void:
 	_refresh_inventory_panel()
 
 func _refresh_inventory_panel() -> void:
+	if _inventory_title:
+		_inventory_title.text = "ATTACHE CASE"
 	if _inventory_room:
-		_inventory_room.text = RoomManager.current_room
+		_inventory_room.text = "Zone  %s" % RoomManager.current_room
 	if _inventory_stats:
-		_inventory_stats.text = "HP %d/3\nStress %d\nXP %d\nMental %d" % [
+		_inventory_stats.text = "Vitals\nHP      %d / %d\nStress  %d\nXP      %d\nMental  %d" % [
 			GameManager.hp,
+			GameManager.MAX_HP,
 			int(round(GameManager.stress)),
 			GameManager.xp,
 			int(round(GameManager.mental)),
 		]
 	if _inventory_save:
-		_inventory_save.text = "Q opens this menu and autosaves.\nK manual save, L load."
+		_inventory_save.text = "Q  close / autosave\nK  manual save\nL  load save"
+	if _inventory_grid:
+		_inventory_grid.text = _inventory_grid_text()
+
+func _build_inventory_layout() -> void:
+	if _inventory == null:
+		return
+	_inventory.custom_minimum_size = Vector2(560.0, 320.0)
+	_inventory.position = Vector2.ZERO
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.08, 0.09, 0.10, 0.96)
+	panel_style.border_color = Color(0.38, 0.46, 0.42, 0.95)
+	panel_style.set_border_width_all(3)
+	panel_style.corner_radius_top_left = 8
+	panel_style.corner_radius_top_right = 8
+	panel_style.corner_radius_bottom_left = 8
+	panel_style.corner_radius_bottom_right = 8
+	_inventory.add_theme_stylebox_override("panel", panel_style)
+	if _inventory_title:
+		_inventory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		_inventory_title.text = "ATTACHE CASE"
+		_inventory_title.add_theme_font_size_override("font_size", 24)
+		_inventory_title.add_theme_color_override("font_color", Color(0.86, 0.92, 0.84, 1.0))
+	if _inventory_room_label:
+		_inventory_room_label.text = "Location"
+	if _inventory_stats_label:
+		_inventory_stats_label.text = "Condition"
+	if _inventory_save_label:
+		_inventory_save_label.text = "Commands"
+	if _inventory_grid == null:
+		_inventory_grid = RichTextLabel.new()
+		_inventory_grid.name = "CaseGrid"
+		_inventory_grid.bbcode_enabled = true
+		_inventory_grid.fit_content = true
+		_inventory_grid.scroll_active = false
+		_inventory_grid.custom_minimum_size = Vector2(500.0, 120.0)
+		_inventory_grid.add_theme_font_size_override("normal_font_size", 16)
+		_inventory_grid.add_theme_color_override("default_color", Color(0.82, 0.88, 0.82, 1.0))
+		$HUD/InventoryPanel/Margin/VBox.add_child(_inventory_grid)
+
+func _inventory_grid_text() -> String:
+	var solvent_count := 0
+	var supply_count := 0
+	var doc_count := 0
+	for pickup_id: String in GameManager.collected_pickups:
+		if pickup_id.contains("solvent"):
+			solvent_count += 1
+		elif pickup_id.contains("supply") or pickup_id.contains("notepad"):
+			supply_count += 1
+		elif pickup_id.contains("doc") or pickup_id.contains("manifest") or pickup_id.contains("proof"):
+			doc_count += 1
+
+	var rows := [
+		"[color=#b8c6b6]CASE LAYOUT[/color]",
+		"[code][ ][S][S][D][ ]  Solvent x%d[/code]" % solvent_count,
+		"[code][ ][N][N][D][ ]  Supplies x%d[/code]" % supply_count,
+		"[code][ ][ ][ ][ ][ ]  Documents x%d[/code]" % doc_count,
+		"[code][ ][ ][ ][ ][ ]  Room key items pending[/code]",
+	]
+	return "\n".join(rows)
 
 func _start_bgm() -> void:
 	if _bgm == null:

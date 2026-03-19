@@ -16,77 +16,77 @@ bus = &"Master"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = -232.0
-offset_right = 8.0
-offset_bottom = -197.0
+offset_left = 10.0
+offset_top = -258.0
+offset_right = 10.0
+offset_bottom = -214.0
 text = "S U P E R"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.24, 0.04, 0.22, 0.95)
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.18, 0.03, 0.16, 0.95)
 
 [node name="SuperLabel" type="Label" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -240.0
-offset_bottom = -205.0
+offset_top = -268.0
+offset_bottom = -224.0
 text = "S U P E R"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 theme_override_colors/font_color = Color(0.28, 0.86, 1.0, 0.92)
 
 [node name="TitleShadow" type="Label" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = -161.0
-offset_right = 12.0
-offset_bottom = -51.0
+offset_left = 18.0
+offset_top = -188.0
+offset_right = 18.0
+offset_bottom = -34.0
 text = "Paper Co."
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 82
-theme_override_colors/font_color = Color(0.10, 0.02, 0.16, 0.95)
+theme_override_font_sizes/font_size = 98
+theme_override_colors/font_color = Color(0.08, 0.02, 0.12, 0.95)
 
 [node name="TitleLabel" type="Label" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -175.0
-offset_bottom = -65.0
+offset_top = -204.0
+offset_bottom = -50.0
 text = "Paper Co."
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 82
-theme_override_colors/font_color = Color(0.92, 0.98, 1.0, 1.0)
+theme_override_font_sizes/font_size = 98
+theme_override_colors/font_color = Color(0.94, 0.98, 1.0, 1.0)
 
 [node name="SubLabel" type="Label" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -44.0
-offset_bottom = -16.0
-text = "A Day in the Life of an R&D Chemist"
+offset_top = -30.0
+offset_bottom = 2.0
+text = "R&D LABORATORY SIMULATION  |  QUIET PANIC  |  NIGHT SHIFT GLOW"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.46, 0.74, 0.92, 0.92)
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 0.86, 0.64, 0.94)
 
 [node name="StartLabel" type="Label" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 28.0
-offset_bottom = 56.0
-text = "[ PRESS ENTER OR SPACE TO START ]"
+offset_top = 40.0
+offset_bottom = 72.0
+text = "[ PRESS ENTER OR SPACE ]"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 17
-theme_override_colors/font_color = Color(1.0, 0.20, 0.78, 0.95)
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.88, 0.96, 1.0, 0.96)
 
 [node name="VersionLabel" type="Label" parent="UI"]
 anchors_preset = 12
@@ -95,7 +95,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -26.0
 offset_bottom = -6.0
-text = "v0.1 PROTOTYPE  |  HANDLE WITH CARE"
+text = "v0.1 PROTOTYPE  |  HANDLE WITH CARE  |  CBR-95 INTERNAL"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 11
-theme_override_colors/font_color = Color(0.28, 0.58, 0.78, 0.78)
+theme_override_colors/font_color = Color(0.72, 0.88, 1.0, 0.82)
