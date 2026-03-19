@@ -28,17 +28,9 @@ func _process(_delta: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if not body.is_in_group("player"):
 		return
-	if not GameManager.register_pickup(pickup_id, item_name):
+	if not GameManager.register_inventory_pickup(pickup_id, item_name, item_kind, value):
 		queue_free()
 		return
-
-	match item_kind:
-		"solvent":
-			GameManager.modify_stress(-float(value))
-		"supplies":
-			GameManager.heal(value)
-		"document":
-			GameManager.add_xp(value)
 
 	queue_free()
 

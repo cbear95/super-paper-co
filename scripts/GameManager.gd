@@ -5,6 +5,7 @@ signal player_died
 signal task_completed(task_id: String)
 signal menu_toggled(is_open: bool)
 signal pickup_collected(item_name: String)
+signal inventory_changed
 
 const MAX_HP     : int   = 3
 const MAX_STRESS : float = 100.0
@@ -21,6 +22,11 @@ var completed_tasks: Array[String]  = []
 var npc_dial_idx   : Dictionary     = {}
 var menu_open      : bool           = false
 var collected_pickups: Array[String] = []
+var inventory_items: Dictionary = {
+	"solvent": 0,
+	"supplies": 0,
+	"document": 0,
+}
 
 var _stress_tick: float = 0.0
 var _poison_tick: float = 0.0
@@ -50,7 +56,13 @@ func reset_stats() -> void:
 	completed_tasks.clear()
 	npc_dial_idx.clear()
 	collected_pickups.clear()
+	inventory_items = {
+		"solvent": 0,
+		"supplies": 0,
+		"document": 0,
+	}
 	stats_changed.emit()
+	inventory_changed.emit()
 
 func set_menu_open(open: bool) -> void:
 	if menu_open == open:
@@ -113,6 +125,42 @@ func register_pickup(pickup_id: String, item_name: String) -> bool:
 		return false
 	collected_pickups.append(pickup_id)
 	pickup_collected.emit(item_name)
+	inventory_changed.emit()
+	return true
+
+func register_inventory_pickup(pickup_id: String, item_name: String, item_kind: String, value: int) -> bool:
+	if not register_pickup(pickup_id, item_name):
+		return false
+	match item_kind:
+		"solvent", "supplies", "document":
+			inventory_items[item_kind] = int(inventory_items.get(item_kind, 0)) + maxi(value, 1)
+		_:
+			inventory_items[item_kind] = int(inventory_items.get(item_kind, 0)) + maxi(value, 1)
+	if item_kind == "document":
+		add_xp(value)
+	elif item_kind == "supplies" and hp < MAX_HP:
+		use_inventory_item("supplies")
+	inventory_changed.emit()
+	return true
+
+func item_count(item_kind: String) -> int:
+	return int(inventory_items.get(item_kind, 0))
+
+func use_inventory_item(item_kind: String) -> bool:
+	var count: int = item_count(item_kind)
+	if count <= 0:
+		return false
+	match item_kind:
+		"solvent":
+			modify_stress(-18.0)
+		"supplies":
+			if hp >= MAX_HP:
+				return false
+			heal(1)
+		_:
+			return false
+	inventory_items[item_kind] = count - 1
+	inventory_changed.emit()
 	return true
 
 func save_game() -> bool:
@@ -134,6 +182,7 @@ func save_game() -> bool:
 		"completed_tasks": completed_tasks,
 		"npc_dial_idx": npc_dial_idx,
 		"collected_pickups": collected_pickups,
+		"inventory_items": inventory_items,
 	}
 	file.store_string(JSON.stringify(payload))
 	return true
@@ -159,6 +208,11 @@ func load_game() -> bool:
 	completed_tasks = Array(data.get("completed_tasks", []))
 	npc_dial_idx = Dictionary(data.get("npc_dial_idx", {}))
 	collected_pickups = Array(data.get("collected_pickups", []))
+	inventory_items = {
+		"solvent": int(Dictionary(data.get("inventory_items", {})).get("solvent", 0)),
+		"supplies": int(Dictionary(data.get("inventory_items", {})).get("supplies", 0)),
+		"document": int(Dictionary(data.get("inventory_items", {})).get("document", 0)),
+	}
 
 	var spawn_data: Dictionary = Dictionary(data.get("spawn_position", {}))
 	RoomManager.current_room = current_room
@@ -169,4 +223,5 @@ func load_game() -> bool:
 	)
 
 	stats_changed.emit()
+	inventory_changed.emit()
 	return true

@@ -56,7 +56,7 @@ func _build_visual() -> void:
 		_build_paper_roll(root)
 
 func _seed_motion_pattern() -> void:
-	var seed := abs((name + str(Time.get_unix_time_from_system()) + str(randi())).hash())
+	var seed: int = abs((name + str(Time.get_unix_time_from_system()) + str(randi())).hash())
 	var options: Array[Vector3] = [
 		Vector3(1.0, 0.0, 0.0),
 		Vector3(-1.0, 0.0, 0.0),

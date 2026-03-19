@@ -23,6 +23,10 @@ var _input_latch: Dictionary = {
 	"load": false,
 }
 var _inventory_grid: RichTextLabel = null
+var _inventory_actions: VBoxContainer = null
+var _solvent_button: Button = null
+var _supplies_button: Button = null
+var _documents_label: Label = null
 
 const ROOM_LOOKS: Dictionary = {
 	"Lab": {
@@ -112,6 +116,8 @@ func _ready() -> void:
 	var cam_node: Camera3D = _cam
 	cam_node.set("target", _player)
 	GameManager.menu_toggled.connect(_on_menu_toggled)
+	GameManager.inventory_changed.connect(_refresh_inventory_panel)
+	GameManager.stats_changed.connect(_refresh_inventory_panel)
 	_build_inventory_layout()
 	_refresh_inventory_panel()
 	_on_menu_toggled(GameManager.menu_open)
@@ -202,9 +208,19 @@ func _refresh_inventory_panel() -> void:
 			int(round(GameManager.mental)),
 		]
 	if _inventory_save:
-		_inventory_save.text = "Q  close / autosave\nK  manual save\nL  load save"
+		_inventory_save.text = "Q  close / autosave\nMouse  use item\nK  manual save\nL  load save"
 	if _inventory_grid:
 		_inventory_grid.text = _inventory_grid_text()
+	if _solvent_button:
+		var solvent_count: int = GameManager.item_count("solvent")
+		_solvent_button.text = "Use Solvent (%d)" % solvent_count
+		_solvent_button.disabled = solvent_count <= 0 or GameManager.stress <= 0.0
+	if _supplies_button:
+		var supplies_count: int = GameManager.item_count("supplies")
+		_supplies_button.text = "Use Pen + Notepad (%d)" % supplies_count
+		_supplies_button.disabled = supplies_count <= 0 or GameManager.hp >= GameManager.MAX_HP
+	if _documents_label:
+		_documents_label.text = "Documents filed: %d" % GameManager.item_count("document")
 
 func _build_inventory_layout() -> void:
 	if _inventory == null:
@@ -241,18 +257,30 @@ func _build_inventory_layout() -> void:
 		_inventory_grid.add_theme_font_size_override("normal_font_size", 16)
 		_inventory_grid.add_theme_color_override("default_color", Color(0.82, 0.88, 0.82, 1.0))
 		$HUD/InventoryPanel/Margin/VBox.add_child(_inventory_grid)
+	if _inventory_actions == null:
+		_inventory_actions = VBoxContainer.new()
+		_inventory_actions.name = "InventoryActions"
+		_inventory_actions.add_theme_constant_override("separation", 8)
+		$HUD/InventoryPanel/Margin/VBox.add_child(_inventory_actions)
+		_solvent_button = Button.new()
+		_solvent_button.text = "Use Solvent"
+		_solvent_button.focus_mode = Control.FOCUS_ALL
+		_solvent_button.pressed.connect(_use_solvent)
+		_inventory_actions.add_child(_solvent_button)
+		_supplies_button = Button.new()
+		_supplies_button.text = "Use Pen + Notepad"
+		_supplies_button.focus_mode = Control.FOCUS_ALL
+		_supplies_button.pressed.connect(_use_supplies)
+		_inventory_actions.add_child(_supplies_button)
+		_documents_label = Label.new()
+		_documents_label.text = "Documents filed: 0"
+		_documents_label.add_theme_color_override("font_color", Color(0.84, 0.88, 0.80, 1.0))
+		_inventory_actions.add_child(_documents_label)
 
 func _inventory_grid_text() -> String:
-	var solvent_count := 0
-	var supply_count := 0
-	var doc_count := 0
-	for pickup_id: String in GameManager.collected_pickups:
-		if pickup_id.contains("solvent"):
-			solvent_count += 1
-		elif pickup_id.contains("supply") or pickup_id.contains("notepad"):
-			supply_count += 1
-		elif pickup_id.contains("doc") or pickup_id.contains("manifest") or pickup_id.contains("proof"):
-			doc_count += 1
+	var solvent_count: int = GameManager.item_count("solvent")
+	var supply_count: int = GameManager.item_count("supplies")
+	var doc_count: int = GameManager.item_count("document")
 
 	var rows := [
 		"[color=#b8c6b6]CASE LAYOUT[/color]",
@@ -262,6 +290,14 @@ func _inventory_grid_text() -> String:
 		"[code][ ][ ][ ][ ][ ]  Room key items pending[/code]",
 	]
 	return "\n".join(rows)
+
+func _use_solvent() -> void:
+	if GameManager.use_inventory_item("solvent"):
+		_refresh_inventory_panel()
+
+func _use_supplies() -> void:
+	if GameManager.use_inventory_item("supplies"):
+		_refresh_inventory_panel()
 
 func _start_bgm() -> void:
 	if _bgm == null:
